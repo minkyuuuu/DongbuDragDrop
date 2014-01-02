@@ -38,9 +38,7 @@ public class CustomHome extends LinearLayout
     private void initView(Context context)
     {
         LayoutUtil.noCacheAnimation(this);
-        
         makeDummyView(context);
-        //addView(layout, LayoutParams.MATCH_PARENT, LayoutParams.MATCH_PARENT);
     }
     
     LinearLayout below;
@@ -82,7 +80,7 @@ public class CustomHome extends LinearLayout
     	// 하단영역
         below = new LinearLayout(context);
         below.setGravity(Gravity.CENTER);
-        below.setBackgroundColor(Color.parseColor("#300000FF"));
+        below.setBackgroundColor(Color.parseColor("#30FF0000"));
         below.setOrientation(LinearLayout.HORIZONTAL);
         
         // + button
