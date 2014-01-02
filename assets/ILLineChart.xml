@@ -1,0 +1,54 @@
+<?xml version="1.0" encoding="utf-8" ?>
+<chart seq='DWSMART' memo='' code='' ver='1.00'>
+	<!-- 화면에 출력되는 부분 설정 -->
+	<view>
+		<block name='lineBlock'>
+			<axis name='lineDateAxis'/>
+			<series name='lineFillSeries'/>
+		</block>
+	</view>
+	<!-- 차트 속성 설정 -->
+	<config>
+		<block name='lineBlock' fontSize='10'/>
+		<axis name='lineDateAxis'
+		type='axisX'
+		lineCount='4'
+		dataDateFormat='yyyyMMddHHmmSS'
+		dateFormat='HH'
+		widthAxisX='70'
+		heightAxisX='20'/>
+		<series name='lineFillSeries'
+		type='lineFillSeries'
+		group='right'
+		formula='VOLUME'/>
+	</config>
+	<!-- 차트 스타일 설정 -->
+	<style>
+		<container name='chartContainer'/>
+		<block name='lineBlock'/>
+		<axis name='lineDateAxis'
+		drawType='line'
+		lineColor='0xFFe6e6e6'
+		fontColor='0xFF1d2651'
+		lineType='dote'
+		lineWidth='1'/>
+		<!--
+		 centerLineColor=기순선 색상
+		 lineUPColor=상승시 라인 색상
+		 lineDownLineColor=다운시 라인 색상
+		 fillGradationUpColor=상승시 영역 색상('시작색, 끝색')
+		 fillGradationDownColor=다운시 영역 색상('시작색, 끝색')
+		 centerLineWidth=기준선 두께
+		 lineWidth=라인선 두께
+		 -->
+		<series name='lineFillSeries'
+		drawType='line'
+		centerLineColor='0xFF000000'
+		lineUPColor='0xFF811E1E'
+		lineDownLineColor='0xFF413A68'
+		fillGradationUpColor='0xFF611E1E,0x70611E1E'
+		fillGradationDownColor='0xFF213A68,0x70213A68'
+		centerLineWidth='1'
+		lineWidth='2'/>
+	</style>
+</chart>

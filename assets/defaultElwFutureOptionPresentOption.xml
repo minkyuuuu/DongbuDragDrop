@@ -1,0 +1,776 @@
+<?xml version="1.0" encoding="utf-8" ?>
+<chart seq='DWSMART' memo='' code='' ver='1.00'>
+	<!-- 화면에 출력되는 부분 설정 -->
+	<view>
+		<container name='chartContainer'>
+			<block name='mainlyBlock'>
+				<axis name='mainlyDateAxis'/>
+				<axis name='mainlyValueAxis'/>
+				<series name='candleSeries'/>
+				<seriesgroup name='candleMaSeriesGroup'>
+					<series name='candleMASeries1'/>
+					<series name='candleMASeries2'/>
+					<series name='candleMASeries3'/>
+					<series name='candleMASeries4'/>
+				</seriesgroup>
+				<!--
+				 <seriesgroup name='candleMaSeriesGroup'>
+				 <series name='candleMASeries1'/>
+				 <series name='candleMASeries2'/>
+				 <series name='candleMASeries3'/>
+				 <series name='candleMASeries4'/>
+				 </seriesgroup>
+				 <series name='candleSeries'/>
+				 <series name='bollingerBandSeries'/>
+				 <series name='balancedScoreCardSeries'/>
+				 <series name='volumeAtPriceSeries'/>
+				 <series name='envelopeSeries'/> 
+				 -->
+				<analysistoolbar name='mainlyToolbar'/>
+			</block>
+			<block name='suportBlock1'>
+				<axis name='suportDateAxis1'/>
+				<axis name='suportValueAxis1'/>
+				<series name='volumeSeries'/>
+			</block>
+			<!--
+			 <series name='volumePowerSeries'/>
+			 <series name='volumePowerToDaySeries'/>
+			 <series name='disparitySeries'/>
+			 <series name='sentimentSeries'/>
+			 <series name='vrSeries'/>
+			 <series name='obvSeries'/>
+			 <series name='adxSeries'/>
+			 <series name='cciSeries'/>
+			 <series name='rsiSeries'/>
+			 <series name='fastStochasticsSeries'/>
+			 <series name='slowStochasticsSeries'/>
+			 <series name='macdHistogramSeries'/>
+			 <series name='macdSeries'/>
+			 <series name='volumePriceSeries'/>
+			 <series name='volumeOrderSeries'/>
+			 <series name='volumeSeries'/>
+			 <block name='suportBlock'>
+			 <axis name='suportDateAxis'/>
+			 <axis name='suportValueAxis'/>
+			 <series name='macdHistogramSeries'/>
+			 <series name='volumePriceSeries'/>
+			 <series name='volumeOrderSeries'/>
+			 <series name='volumeSeries'/>
+			 <seriesgroup name='volumeMaSeriesGroup'>
+			 <series name='volumeMASeries1'/>
+			 <series name='volumeMASeries2'/>
+			 <series name='volumeMASeries3'/>
+			 <series name='volumeMASeries4'/>
+			 </seriesgroup>
+			 </block>
+			 -->
+		</container>
+	</view>
+	<!-- 차트 속성 설정 -->
+	<config>
+		<!--
+		 showItemCount=화면에 출력되는 아이템의 갯수
+		 maxItemCount=확대 축소시 화면에 출력될수 있는 아이템의 최대 갯수
+		 minItemCount=확대 축소시 화면에 출력될수 있는 아이템의 최소 갯수
+		 detailInfoDecimal= 캔들 상세정보에서 소수점 표시 여부 0:표시 안함 1: 표시
+		 detailInfoPosY=캔들상세창의 Y좌표
+		 detailInfoWidth=캔들 상세창의 가로 사이즈
+		 detailInfoHeight=캔들 상세창의 세로 사이즈
+		 detailInfoDataDateFormat='yyyyMMddHHmmSS'// ILChartData.date에 등록되어있는 포맷
+		 detailInfoDateFormat=화면에 출력될 date 포맷
+		 -->
+		<container name='chartContainer'
+		showItemCount='40'
+		maxItemCount='180'
+		minItemCount='10'
+		x='0'
+		y='210'
+		width='320'
+		height='250'
+		itemWidth='3'
+		itemGap='1'
+		detailInfoDecimal='2'
+		detailInfoPosX='0'
+		detailInfoPosY='7'
+		detailInfoWidth='130'
+		detailInfoHeight='100'
+		detailInfoDataDateFormat='yyyyMMdd'
+		detailInfoDateFormat='yy.MM.dd'
+		detailInfoFontSize='10'/>
+		<!--
+		 legendHeight=범례의 세로 사이즈
+		 -->
+		<block name='mainlyBlock'
+		x='0'
+		y='0'
+		width='320'
+		height='150'
+		legendHeight='20'
+		fontSize='10'
+		legendFontSize='10'
+		closeButtonWidth='20'
+		closeButtonHeight='20'/>
+		<!--
+		 type=axis의 타입 axisX:날짜축 axisY:금액축
+		 lineCount=축에 그려지는 라인의 갯수
+		 dataDateFormat='yyyyMMddHHmmSS'// ILChartData.date에 등록되어있는 포맷
+		 dateFormat=화면에 출력될 date 포맷
+		 widthAxisX=날짜사이즈의 가로 사이즈
+		 heightAxisX=날짜 텍스트의 세로 사이즈
+		 widthRightAxisY=금액텍스트의 가로 사이즈
+		 heightRightAxisY=금액텍스트의 세로 사이즈
+		 decimalRightAxisY=금액텍스트에서 소수점 표시 여부 0:소수점 표시 안함 1: 소수점 표시
+		 legend=범례에 출력할 텍스트
+		 formula=차트 출력시 시용할 테이타
+		 OPEN_PRICE=시가
+		 HIGH_PRICE=고가
+		 LOW_PRICE=저가
+		 CLOSE_PRICE=종가
+		 VOLUME=거래량
+		 period='movingAverageSeries에서 평균을 낼 기간'
+		 -->
+		<!-- 주차트 날짜축 -->
+		<axis name='mainlyDateAxis'
+		type='axisX'
+		lineCount='4'
+		dataDateFormat='yyyyMMdd'
+		dateFormat='yy.MM.dd'
+		widthAxisX='70'
+		heightAxisX='20'/>
+		<!-- 주차트 금액축 -->
+		<axis name='mainlyValueAxis'
+		type='axisY'
+		lineCount='5'
+		widthRightAxisY='57'
+		heightRightAxisY='20'
+		decimalRightAxisY='2'/>
+		<!-- 캔들 -->
+		<series name='candleSeries'
+		type='candleSeries'
+		group='right'
+		formula=''/>
+		<!-- 바 -->
+		<series name='barSeries'
+		type='barSeries'
+		group='right'/>
+		<!-- 라인 -->
+		<series name='lineSeries'
+		type='lineSeries'
+		group='right'/>
+		<seriesgroup name='candleMaSeriesGroup'/>
+		<!-- 이동평균선 -->
+		<series name='candleMASeries1'
+		type='movingAverageSeries'
+		group='right'
+		formula='CLOSE_PRICE'
+		period='5'
+		legend='이평'/>
+		<!-- 이동평균선 -->
+		<series name='candleMASeries2'
+		type='movingAverageSeries'
+		group='right'
+		formula='CLOSE_PRICE'
+		period='20'
+		legend='이평'/>
+		<!-- 이동평균선 -->
+		<series name='candleMASeries3'
+		type='movingAverageSeries'
+		group='right'
+		formula='CLOSE_PRICE'
+		period='60'
+		legend='이평'/>
+		<!-- 이동평균선 -->
+		<series name='candleMASeries4'
+		type='movingAverageSeries'
+		group='right'
+		formula='CLOSE_PRICE'
+		period='120'
+		legend='이평'/>
+		<!-- 일목균형표 -->
+		<series name='balancedScoreCardSeries'
+		type='balancedScoreCardSeries'
+		group='right'
+		formula='CLOSE_PRICE'
+		period1='9'
+		period2='26'
+		period3='52'
+		legends='전환선,기준선,선행스팬1,선행스팬2,후행스팬'/>
+		<!-- 매물분석도 -->
+		<series name='volumeAtPriceSeries'
+		type='volumeAtPriceSeries'
+		group='right'
+		formula='CLOSE_PRICE'
+		period='10'
+		legend=''/>
+		<!-- Envelope -->
+		<series name='envelopeSeries'
+		type='envelopeSeries'
+		group='right'
+		formula='CLOSE_PRICE'
+		period1='20'
+		period2='6'
+		legends='이동평균선,저항선,지지선'/>
+		<!-- BollingerBand -->
+		<series name='bollingerBandSeries'
+		type='bollingerBandSeries'
+		group='right'
+		formula='CLOSE_PRICE'
+		period1='20'
+		period2='2'
+		legends='BollingerBand중심선,상한선,하한선'/>
+		<!-- 분석툴 -->
+		<analysistoolbar name='mainlyToolbar' type='analysistoolbar'/>
+		<!-- 보조차트 블럭1 -->
+		<block name='suportBlock1'
+		x='0'
+		y='150'
+		width='320'
+		height='50'
+		legendHeight='20'
+		closeButton='false'
+		fontSize='10'
+		legendFontSize='10'
+		closeButtonWidth='20'
+		closeButtonHeight='20'/>
+		<!-- 보조차트 날짜축1 -->
+		<axis name='suportDateAxis1'
+		type='axisX'
+		lineCount='4'
+		widthAxisX='0'
+		heightAxisX='0'/>
+		<!-- 보조차트 금액축 1-->
+		<axis name='suportValueAxis1'
+		type='axisY'
+		lineCount='5'
+		widthRightAxisY='57'
+		heightRightAxisY='20'
+		decimalRightAxisY='0'/>
+		<!-- 보조차트 블럭2 -->
+		<block name='suportBlock2'
+		x='0'
+		y='200'
+		width='320'
+		height='50'
+		legendHeight='20'
+		closeButton='false'
+		fontSize='10'
+		legendFontSize='10'
+		closeButtonWidth='20'
+		closeButtonHeight='20'/>
+		<!-- 보조차트 날짜축2 -->
+		<axis name='suportDateAxis2'
+		type='axisX'
+		lineCount='4'
+		widthAxisX='0'
+		heightAxisX='0'/>
+		<!-- 보조차트 금액축 2-->
+		<axis name='suportValueAxis2'
+		type='axisY'
+		lineCount='5'
+		widthRightAxisY='57'
+		heightRightAxisY='20'
+		decimalRightAxisY='0'/>
+		<!-- 보조차트 블럭3 -->
+		<block name='suportBlock3'
+		x='0'
+		y='150'
+		width='320'
+		height='50'
+		legendHeight='20'
+		closeButton='false'
+		fontSize='10'
+		legendFontSize='10'
+		closeButtonWidth='20'
+		closeButtonHeight='20'/>
+		<!-- 보조차트 날짜축3 -->
+		<axis name='suportDateAxis3'
+		type='axisX'
+		lineCount='4'
+		widthAxisX='0'
+		heightAxisX='0'/>
+		<!-- 보조차트 금액축 3-->
+		<axis name='suportValueAxis3'
+		type='axisY'
+		lineCount='5'
+		widthRightAxisY='57'
+		heightRightAxisY='20'
+		decimalRightAxisY='0'/>
+		<!-- 거래량 -->
+		<series name='volumeSeries'
+		type='volumeSeries'
+		legend='거래량'
+		group='right'
+		formula=''/>
+		<!-- 거래량 이동평균1 -->
+		<series name='volumeMASeries1'
+		type='movingAverageSeries'
+		group='right'
+		formula='VOLUME'
+		period='5'
+		legend='이평'/>
+		<!-- 거래량 이동평균2 -->
+		<series name='volumeMASeries2'
+		type='movingAverageSeries'
+		group='right'
+		formula='VOLUME'
+		period='20'
+		legend='이평'/>
+		<!-- 거래량 이동평균3 -->
+		<series name='volumeMASeries3'
+		type='movingAverageSeries'
+		group='right'
+		formula='VOLUME'
+		period='60'
+		legend='이평'/>
+		<!-- 거래량 이동평균4 -->
+		<series name='volumeMASeries4'
+		type='movingAverageSeries'
+		group='right'
+		formula='VOLUME'
+		period='120'
+		legend='이평'/>
+		<!-- 거래량(매수, 매도) -->
+		<series name='volumeOrderSeries'
+		type='volumeOrderSeries'
+		group='right'
+		formula='VOLUME'
+		legends='매도거래량,매수거래량'/>
+		<!-- 거래량 대금 -->
+		<series name='volumePriceSeries'
+		type='volumePriceSeries'
+		group='right'
+		formula='VOLUME'
+		legend='거래대금'/>
+		<!-- MACD -->
+		<series name='macdSeries'
+		type='macdSeries'
+		group='right'
+		formula='CLOSE_PRICE'
+		period1='12'
+		period2='26'
+		period3='9'
+		legends='MACD,시그널'/>
+		<!-- MACD Histogram -->
+		<series name='macdHistogramSeries'
+		type='macdHistogramSeries'
+		group='right'
+		formula='CLOSE_PRICE'
+		period1='12'
+		period2='26'
+		period3='9'
+		legends='MACD Histogram'/>
+		<!-- Fast STC -->
+		<series name='fastStochasticsSeries'
+		type='fastStochasticsSeries'
+		group='right'
+		formula='CLOSE_PRICE'
+		period1='5'
+		period2='3'
+		legends='Fast %K,Fast %D'/>
+		<!-- Slow STC -->
+		<series name='slowStochasticsSeries'
+		type='slowStochasticsSeries'
+		group='right'
+		formula='CLOSE_PRICE'
+		period1='5'
+		period2='3'
+		period3='3'
+		legends='Slow %K,Slow %D'/>
+		<!-- RSI -->
+		<series name='rsiSeries'
+		type='rsiSeries'
+		group='right'
+		formula='CLOSE_PRICE'
+		period1='14'
+		period2='6'
+		legends='RSI,시그널'/>
+		<!-- ADX -->
+		<series name='adxSeries'
+		type='adxSeries'
+		group='right'
+		formula='CLOSE_PRICE'
+		period='14'
+		legends='ADX,PDI,NDI'/>
+		<!-- OBV -->
+		<series name='obvSeries'
+		type='obvSeries'
+		group='right'
+		formula='CLOSE_PRICE'
+		legend='OBV'/>
+		<!-- CCI -->
+		<series name='cciSeries'
+		type='cciSeries'
+		group='right'
+		formula='CLOSE_PRICE'
+		period1='20'
+		period2='8'
+		legends='CCI,시그널'/>
+		<!-- VR -->
+		<series name='vrSeries'
+		type='vrSeries'
+		group='right'
+		formula='CLOSE_PRICE'
+		period='20'
+		legends='VR'/>
+		<!-- 심리도 -->
+		<series name='sentimentSeries'
+		type='sentimentSeries'
+		group='right'
+		formula='CLOSE_PRICE'
+		period='10'
+		legends='심리도'/>
+		<!-- 이격도 -->
+		<series name='disparitySeries'
+		type='disparitySeries'
+		group='right'
+		formula='CLOSE_PRICE'
+		period='10'
+		legends='이격도'/>
+		<!-- 체결 강도 -->
+		<series name='volumePowerSeries'
+		type='volumePowerSeries'
+		group='right'
+		formula='CLOSE_PRICE'
+		legends='체결강도'/>
+		<!-- 체결 강도 당일분-->
+		<series name='volumePowerToDaySeries'
+		type='volumePowerToDaySeries'
+		group='right'
+		formula='CLOSE_PRICE'
+		legends='체결강도(당일분)'/>
+		<!-- 외국인순매수량 -->
+		<series name='foreignNetBidTodayVolSeries'
+			type='foreignNetBidTodayVolSeries'
+			group='right'
+			formula='CLOSE_PRICE'
+			legend='외국인순매수량'/>
+		<!-- 외국인누적순매수량 -->
+		<series name='foreignNetBidAccumulateVolSeries'
+			type='foreignNetBidAccumulateVolSeries'
+			group='right'
+			formula='CLOSE_PRICE'
+			legend='외국인누적순매수량'/>
+		<!-- 기관순매수량 -->
+		<series name='agencyNetBidTodayVolSeries'
+			type='agencyNetBidTodayVolSeries'
+			group='right'
+			formula='CLOSE_PRICE'
+			legend='기관순매수량'/>
+		<!-- 기관누적순매수량 -->
+		<series name='agencyNetBidAccumulateVolSeries'
+			type='agencyNetBidAccumulateVolSeries'
+			group='right'
+			formula='CLOSE_PRICE'
+			legend='기관누적순매수량'/>
+	</config>
+	<!-- 차트 스타일 설정 -->
+	<style>
+		<!--
+		 색상값은 0xAARRGGBB 형태의 16진수로 이루어져 있다
+		 AA=알파
+		 RR=레드
+		 GG=그린
+		 BB=블루
+		 
+		 detailInfoLineWidth=캔들상의 라인 투께
+		 detailInfoColor=캔들상세의 캔들색상 '상승시색,하락시색'='0xFFFF0000,0xFF0000FF'
+		 detailInfoLineColor=캔들 상세의 라인 색상
+		 detailInfoFontColor=캔들상세의 폰트 색상
+		 
+		 lineColor=라인색상
+		 fontColor=폰트색상
+		 lineType=라인타입 'dote', 'line'
+		 lineWidth=라인두꼐/>
+		 -->
+		<container name='chartContainer'
+		detailInfoLineWidth='1'
+		detailInfoColor='0xFFE54065,0xFF1E66E6'
+		detailInfoLineColor='0xFF000000'
+		detailInfoFontColor='0xFF000000'/>
+		<block name='mainlyBlock'/>
+		<!-- 메인차트 날짜축 -->
+		<axis name='mainlyDateAxis'
+		drawType='line'
+		lineColor='0xFFE4E4E4'
+		fontColor='0xFF000000'
+		lineType='dote'
+		lineWidth='1'/>
+		<!-- 메인차트 가격축 -->
+		<axis name='mainlyValueAxis'
+		drawType='line'
+		lineColor='0xFFE4E4E4'
+		fontColor='0xFF000000'
+		lineType='dote'
+		lineWidth='1'/>
+		<!-- 캔들 -->
+		<series name='candleSeries'
+		drawType='candle'
+		lineColor='0xFFE54065,0xFF1E66E6'
+		fillColor='0xFFE54065,0xFF1E66E6'
+		rightFillColor='0xFFE54065,0xFF1E66E6'
+		rightFontColor='0xFFFFFFFF,0xFFFFFFFF'
+		centerLineColor='0xFFE54065'
+		centerLineWidth='1'
+		lineWidth='1'/>
+		<!-- 바 -->
+		<series name='barSeries'
+		drawType='bar'
+		lineColor='0xFFE54065,0xFF1E66E6'
+		centerLineColor='0xFFE54065'
+		centerLineWidth='1'
+		rightFillColor='0xFFE54065,0xFF1E66E6'
+		rightFontColor='0xFFFFFFFF,0xFFFFFFFF'
+		lineWidth='1'/>
+		<!-- 라인 -->
+		<series name='lineSeries'
+		drawType='line'
+		lineColor='0xFF596939'
+		centerLineColor='0xFFE54065'
+		centerLineWidth='1'
+		rightFillColor='0xFFE54065,0xFF1E66E6'
+		rightFontColor='0xFFFFFFFF,0xFFFFFFFF'
+		lineWidth='4'/>
+		<!-- 이동평균선 -->
+		<seriesgroup name='candleMaSeriesGroup'/>
+		<series name='candleMASeries1'
+		drawType='line'
+		lineColor='0XFFFFB400'
+		lineWidth='2'/>
+		<series name='candleMASeries2'
+		drawType='line'
+		lineColor='0xFF269026'
+		lineWidth='2'/>
+		<series name='candleMASeries3'
+		drawType='line'
+		lineColor='0xFFE165E1'
+		lineWidth='2'/>
+		<series name='candleMASeries4'
+		drawType='line'
+		lineColor='0xFF66B4E6'
+		lineWidth='2'/>
+		<!-- 일목균형표 -->
+		<series name='balancedScoreCardSeries'
+		drawType='line'
+		lineColor='0xFFA54B16,0xFF00568B,0xFFF47929,0xFF00667D,0xFF596939'
+		lineWidth='2'/>
+		<!-- 매물분석도 -->
+		<series name='volumeAtPriceSeries'
+		drawType='line'
+		lineColor='0x7755FF55'
+		fontColor='0xFF000000'
+		fillColor='0x5555FF55'
+		lineWidth='2'/>
+		<!-- Envelope -->
+		<series name='envelopeSeries'
+		drawType='line'
+		lineColor='0xFF72808B,0xFFFED2B0,0xFFFED2B0'
+		lineWidth='2'/>
+		<!-- BollingerBand -->
+		<series name='bollingerBandSeries'
+		drawType='line'
+		lineColor='0xFFC8A6C2,0xFF707AA4,0xFF707AA4'
+		lineWidth='2'/>
+		<!-- 분석툴 -->
+		<analysistoolbar name='mainlyToolbar' 
+		lineWidth='1' 
+		lineColor='0xFF000000'/>
+		<!-- 보조차트 블럭1 -->
+		<block name='suportBlock1'
+		legendFontColor='0xFF000000'/>
+		<!-- 보조차트 날짜축1 -->
+		<axis name='suportDateAxis1'
+		drawType='line'
+		lineColor='0xFFE4E4E4'
+		fontColor='0xFF000000'
+		lineType='dote'
+		lineWidth='1'/>
+		<!-- 보조차트 금액축 1-->
+		<axis name='suportValueAxis1'
+		drawType='line'
+		lineColor='0xFFE4E4E4'
+		fontColor='0xFF000000'
+		lineType='dote'
+		lineWidth='1'/>
+		<!-- 보조차트 블럭2 -->
+		<block name='suportBlock2'
+		legendFontColor='0xFF000000'/>
+		<!-- 보조차트 날짜축2 -->
+		<axis name='suportDateAxis2'
+		drawType='line'
+		lineColor='0xFFE4E4E4'
+		fontColor='0xFF000000'
+		lineType='dote'
+		lineWidth='1'/>
+		<!-- 보조차트 금액축 2-->
+		<axis name='suportValueAxis2'
+		drawType='line'
+		lineColor='0xFFE4E4E4'
+		fontColor='0xFF000000'
+		lineType='dote'
+		lineWidth='1'/>
+		<!-- 보조차트 블럭3 -->
+		<block name='suportBlock3'
+		legendFontColor='0xFF000000'/>
+		<!-- 보조차트 날짜축3 -->
+		<axis name='suportDateAxis3'
+		drawType='line'
+		lineColor='0xFFE4E4E4'
+		fontColor='0xFF000000'
+		lineType='dote'
+		lineWidth='1'/>
+		<!-- 보조차트 금액축 3-->
+		<axis name='suportValueAxis3'
+		drawType='line'
+		lineColor='0xFFE4E4E4'
+		fontColor='0xFF000000'
+		lineType='dote'
+		lineWidth='1'/>
+		<!-- 거래량 -->
+		<series name='volumeSeries'
+		drawType='box'
+		lineColor='0xFFE54065,0xFF1E66E6'
+		fillColor='0xFFE54065,0xFF1E66E6'/>
+		<series name='volumeMASeries1'
+		drawType='line'
+		lineColor='0xFFFFFF00'
+		lineWidth='1'/>
+		<series name='volumeMASeries2'
+		drawType='line'
+		lineColor='0xFF00FF00'
+		lineWidth='1'/>
+		<series name='volumeMASeries3'
+		drawType='line'
+		lineColor='0xFFFF00FF'
+		lineWidth='1'/>
+		<series name='volumeMASeries4'
+		drawType='line'
+		lineColor='0xFF00FFFF'
+		lineWidth='1'/>
+		<!-- 거래량(매수, 매도) -->
+		<series name='volumeOrderSeries'
+		drawType='box'
+		lineColor='0xFF1E66E6,0xFFE54065'
+		fillColor='0xFF1E66E6,0xFFE54065'/>
+		<!-- 거래량 대금 -->
+		<series name='volumePriceSeries'
+		drawType='box'
+		lineColor='0xFFE54065,0xFF1E66E6'
+		fillColor='0xFFE54065,0xFF1E66E6'/>
+		<!-- MACD -->
+		<series name='macdSeries'
+		drawTypes='line,dote'
+		lineColor='0xFFE54065,0xFFE546E6'
+		fillColor='0xFFE54065,0xFFE546E6'
+		lineWidth='2'
+		centerLineColor='0xFF000000'
+		centerLineWidth='1'/>
+		<!-- MACD Histogram -->
+		<series name='macdHistogramSeries'
+		drawTypes='box'
+		lineWidth='1'
+		fillColor='0xFF00FF00'/>
+		<!-- Fast STC -->
+		<series name='fastStochasticsSeries'
+		drawTypes='line,line'
+		lineColor='0xFFE54065,0xFF1E66E6'
+		fillColor='0xFFE54065,0xFF1E66E6'
+		lineWidth='2'
+		centerLineColor='0xFF000000'
+		centerLineWidth='1'/>
+		<!-- Slow STC -->
+		<series name='slowStochasticsSeries'
+		drawTypes='line,line'
+		lineColor='0xFFE54065,0xFF1E66E6'
+		fillColor='0xFFE54065,0xFF1E66E6'
+		lineWidth='2'
+		centerLineColor='0xFF000000'
+		centerLineWidth='1'/>
+		<!-- RSI -->
+		<series name='rsiSeries'
+		drawTypes='line,dote'
+		lineColor='0xFFE54065,0xFFE546E6'
+		fillColor='0xFFE54065,0xFFE546E6'
+		lineWidth='2'
+		centerLineColor='0xFF000000'
+		centerLineWidth='1'/>
+		<!-- ADX -->
+		<series name='adxSeries'
+		drawTypes='line,line,line'
+		lineColor='0xFFE54065,0xFF1E66E6,0xFF00FFFF'
+		fillColor='0xFFE54065,0xFF1E66E6,0xFF00FFFF'
+		lineWidth='2'
+		centerLineColor='0xFF000000'
+		centerLineWidth='1'/>
+		<!-- OBV -->
+		<series name='obvSeries'
+		drawType='line'
+		lineColor='0xFFE54065'
+		fillColor='0xFFE54065'
+		lineWidth='2'/>
+		<!-- CCI -->
+		<series name='cciSeries'
+		drawTypes='line,dote'
+		lineColor='0xFFE54065,0xFFE546E6'
+		fillColor='0xFFE54065,0xFFE546E6'
+		lineWidth='2'
+		centerLineColor='0xFF000000'
+		centerLineWidth='1'/>
+		<!-- VR -->
+		<series name='vrSeries'
+		drawTypes='line,dote'
+		lineColor='0xFFE54065,0xFFE546E6'
+		fillColor='0xFFE54065,0xFFE546E6'
+		lineWidth='2'/>
+		<!-- 심리도 -->
+		<series name='sentimentSeries'
+		drawTypes='line'
+		lineColor='0xFFE54065'
+		fillColor='0xFFE54065'
+		lineWidth='2'
+		centerLineColor='0xFF000000'
+		centerLineWidth='1'/>
+		<!-- 이격도 -->
+		<series name='disparitySeries'
+		drawTypes='line'
+		lineColor='0xFFE54065'
+		fillColor='0xFFE54065'
+		lineWidth='2'
+		centerLineColor='0xFF000000'
+		centerLineWidth='1'/>
+		<!-- 체결 강도 -->
+		<series name='volumePowerSeries'
+		drawTypes='line'
+		lineColor='0xFFE54065'
+		fillColor='0xFFE54065'
+		lineWidth='2'/>
+		<!-- 체결 강도 당일분-->
+		<series name='volumePowerToDaySeries'
+		drawTypes='line'
+		lineColor='0xFFE54065'
+		fillColor='0xFFE54065'
+		lineWidth='2'/>
+		<!-- 외국인순매수량 -->
+		<series name='foreignNetBidTodayVolSeries'
+			drawType='box'
+			lineColor='0xFFE54065,0xFF1E66E6'
+			fillColor='0xFFE54065,0xFF1E66E6'/>
+		<!-- 외국인누적순매수량 -->
+		<series name='foreignNetBidAccumulateVolSeries'
+			drawTypes='line'
+			lineColor='0xFFE54065'
+			fillColor='0xFFE54065'
+			lineWidth='2'/>
+		<!-- 기관순매수량 -->
+		<series name='agencyNetBidTodayVolSeries'
+			drawType='box'
+			lineColor='0xFFE54065,0xFF1E66E6'
+			fillColor='0xFFE54065,0xFF1E66E6'/>
+		<!-- 기관누적순매수량 -->
+		<series name='agencyNetBidAccumulateVolSeries'
+			drawTypes='line'
+			lineColor='0xFFE54065'
+			fillColor='0xFFE54065'
+			lineWidth='2'/>
+	</style>
+</chart>

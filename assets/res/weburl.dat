@@ -1,0 +1,24 @@
+#SNS 메뉴 항목
+ORGTWIT=www.twitter.com/wooriocto
+ORGFACE=www.facebook.com/wooriocto
+ORGBLOG=www.wooriocto.com
+CLUBTWIT=www.twitter.com/mugclub
+MOBILEHP=m.wooriwm.com
+
+#이용안내
+USAGEINFO=http://m.wooriwm.com/mobile/mGuideUseAction.action
+#공지사항
+MOBILENOTICE=http://m.wooriwm.com/mobile/mGuideNoticeAction.action
+#뉴스 웹
+MOBILENEWS=http://m.wooriwm.com/mobile/mNewsViewAction.action
+#모바일 웹
+MOBILEWEB=http://m.wooriwm.com/
+#영업점 안내
+MOBILESTORE=http://m.wooriwm.com/mobile/mGuideStoreAction.action
+#로그인 배너
+LOGINBANNER=http://m.wooriwm.com/mobile/mGuideEventViewAction.action?m_no=800
+#앱 웹
+APPPAGE=http://m.wooriwm.com/mugsmart/
+
+#구글pdf보기
+PDFVIEW=http://docs.google.com/gview?embedded=true&url=
