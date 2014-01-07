@@ -1,4 +1,4 @@
-package com.example.draganddrop;
+package com.dongbusec.customhome;
 
 import android.os.Bundle;
 
@@ -10,7 +10,7 @@ import com.dongbusec.newmainlib.info.CommonInfo;
 
 public class MainActivity extends BaseActivity {
 
-	CustomHome customHome;
+	CustomHomeMain mCustomHomeMain;
 
 	@Override
 	protected void onCreate(Bundle savedInstanceState) {
@@ -18,8 +18,8 @@ public class MainActivity extends BaseActivity {
 		
 		init();
 
-		customHome = new CustomHome(this);
-		setContentView(customHome);
+		mCustomHomeMain = new CustomHomeMain(this);
+		setContentView(mCustomHomeMain);
 	}
 
 	private void init() {

@@ -1,5 +1,5 @@
 
-package com.example.draganddrop;
+package com.dongbusec.customhome;
 
 import android.app.Activity;
 import android.content.Context;
@@ -15,35 +15,45 @@ import android.widget.LinearLayout;
 import android.widget.RelativeLayout;
 import android.widget.ScrollView;
 import android.widget.TextView;
+import android.widget.FrameLayout.LayoutParams;
 
 import com.dongbusec.corelib.util.LayoutUtil;
 import com.dongbusec.corelib.util.ResourceManager;
 
-public class CustomHome extends LinearLayout
+public class CustomHomeMain extends LinearLayout
 {
+	CustomHomeManager mCustomManager;
 
-    public CustomHome(Context context)
+    public CustomHomeMain(Context context)
     {
         super(context);
+        loadData(context);
         init(context);
         initView(context);
     }
 
+    private void loadData(Context context)
+    {
+    	mCustomManager = new CustomHomeManager(context);
+    }
+    
     private void init(Context context)
     {
-        setBackgroundDrawable(ResourceManager.getSingleImage("ico_mainbg01_b"));
-        this.setOrientation(LinearLayout.VERTICAL);
+    	setBackgroundDrawable(ResourceManager.getSingleImage("ico_mainbg01_b"));
+    	this.setOrientation(LinearLayout.VERTICAL);
     }
 
     private void initView(Context context)
     {
         LayoutUtil.noCacheAnimation(this);
-        makeDummyView(context);
+        makeMainView(context);
     }
     
     LinearLayout below;
-    private void makeDummyView(Context context){
+    private void makeMainView(Context context){
+    	// -------
     	// 상단영역
+    	// -------
         LinearLayout above = new LinearLayout(context);
         above.setGravity(Gravity.CENTER);
         above.setBackgroundColor(Color.parseColor("#30FF0000"));
@@ -69,15 +79,25 @@ public class CustomHome extends LinearLayout
     	
     	LayoutUtil.addChildRetina(this, above, LayoutParams.MATCH_PARENT , 134);
     	        
+    	// ------------------------
     	// 중간영역 (control region)
+    	// ------------------------
     	ScrollView sv = new ScrollView(context);
     	sv.setBackgroundColor(LayoutUtil.getHexaColor(60, "1f273a"));
-    	RelativeLayout subLayout  = new RelativeLayout(context);
+    	FrameLayout customHomeView  = new FrameLayout(context);
     	
-    	sv.addView(subLayout, LayoutParams.MATCH_PARENT, LayoutParams.MATCH_PARENT);
+    	View itemView = new CustomTileView(context, customHomeView, 11, 0, "지수");
+    	//FrameLayout.LayoutParams params = new FrameLayout.LayoutParams(148 , 148);
+    	//subLayout.addView(itemView, params);
+    	LayoutUtil.addChildRetina(customHomeView, itemView, 148 , 148);
+    	
+    	sv.addView(customHomeView, LayoutParams.MATCH_PARENT, LayoutParams.MATCH_PARENT);
+    	sv.setVerticalScrollBarEnabled(false);
     	LayoutUtil.addChildWeightRetina(this, sv, LayoutParams.MATCH_PARENT , LayoutParams.WRAP_CONTENT, 1f);
     	
+    	// -------
     	// 하단영역
+    	// -------
         below = new LinearLayout(context);
         below.setGravity(Gravity.CENTER);
         below.setBackgroundColor(Color.parseColor("#30FF0000"));
