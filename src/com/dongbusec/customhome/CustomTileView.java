@@ -1,46 +1,69 @@
 package com.dongbusec.customhome;
 
 import android.content.Context;
-import android.graphics.Typeface;
-import android.view.Gravity;
-import android.widget.FrameLayout;
-import android.widget.TextView;
+import android.view.View;
 
-import com.dongbusec.corelib.util.LayoutUtil;
-import com.dongbusec.corelib.util.ResourceManager;
+public class CustomTileView extends View {
 
-public class CustomTileView extends FrameLayout {
-	int SIZE_ONE 	= 148;
-	int SIZE_TWO 	= 304;
-	int SIZE_THREE 	= 406;
-	int SIZE_FOUR 	= 616;
-
-	public CustomTileView(Context context, FrameLayout customHomeView, int viewType, int moduleType, String itemCode) {
+	/**
+	 * @param context
+	 * @param type
+	 *            셀 크기종류 : 11,21,22,32,42
+	 * @param moduleType
+	 * @param itemCode
+	 */
+	public CustomTileView(Context context, int type, int moduleType, String itemCode) {
 		super(context);
-        init(context, customHomeView, viewType, moduleType);
-        initView(context, moduleType, itemCode);
+		getTileView(type, moduleType, itemCode);
 	}
-	
-    private void init(Context context, FrameLayout customHomeView, int viewType, int moduleType)
-    {
-    	LayoutParams params = new LayoutParams(SIZE_ONE, SIZE_ONE);
-    	this.setLayoutParams(params);
-    	
-        setBackgroundDrawable(ResourceManager.getSingleImage("frame_box_green01.9"));
-        //LayoutUtil.addChildRetina(customHomeView, this, SIZE_ONE , SIZE_ONE);
-    }
 
-    private void initView(Context context, int moduleType, String itemCode)
-    {
-        LayoutUtil.noCacheAnimation(this);
+	private CustomTileView getTileView(int type, int moduleType, String itemCode) {
+		switch(type) {
+        case Constant.Type.TYPE_1x1:
+            return make1x1view(moduleType,itemCode);
+            
+        case Constant.Type.TYPE_2x1:
+        	return make2x1view(moduleType,itemCode);
+            
+        case Constant.Type.TYPE_2x2:
+        	return make2x2view(moduleType,itemCode);
+            
+        case Constant.Type.TYPE_3x2:
+        	return make3x2view(moduleType,itemCode);
+            
+        case Constant.Type.TYPE_4x2:
+        	return make4x2view(moduleType,itemCode);
+            
+        default:
+            break;
+		}
+		
+		return null;
+	}
 
-        TextView tv = new TextView(context);
+	private CustomTileView make4x2view(int moduleType, String itemCode) {
+		// TODO Auto-generated method stub
+		return null;
+	}
 
-        LayoutUtil.setFont(tv, 1, Typeface.BOLD, 34, 100, "000000", Gravity.CENTER);
-        tv.setText(itemCode);
+	private CustomTileView make3x2view(int moduleType, String itemCode) {
+		// TODO Auto-generated method stub
+		return null;
+	}
 
-        LayoutUtil.addChildRetina(this, tv, LayoutParams.WRAP_CONTENT, LayoutParams.WRAP_CONTENT, 0,0,0,0, Gravity.CENTER);
+	private CustomTileView make2x2view(int moduleType, String itemCode) {
+		// TODO Auto-generated method stub
+		return null;
+	}
 
-    }
+	private CustomTileView make2x1view(int moduleType, String itemCode) {
+		// TODO Auto-generated method stub
+		return null;
+	}
+
+	private CustomTileView make1x1view(int moduleType, String itemCode) {
+		// TODO Auto-generated method stub
+		return null;
+	}
 
 }

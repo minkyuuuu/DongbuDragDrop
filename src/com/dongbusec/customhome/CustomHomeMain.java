@@ -22,8 +22,6 @@ import com.dongbusec.corelib.util.ResourceManager;
 
 public class CustomHomeMain extends LinearLayout
 {
-	CustomHomeManager mCustomManager;
-
     public CustomHomeMain(Context context)
     {
         super(context);
@@ -34,7 +32,7 @@ public class CustomHomeMain extends LinearLayout
 
     private void loadData(Context context)
     {
-    	mCustomManager = new CustomHomeManager(context);
+    	CustomHomeManager mCustomManager = CustomHomeManager.getInstance(context);
     }
     
     private void init(Context context)
@@ -84,12 +82,7 @@ public class CustomHomeMain extends LinearLayout
     	// ------------------------
     	ScrollView sv = new ScrollView(context);
     	sv.setBackgroundColor(LayoutUtil.getHexaColor(60, "1f273a"));
-    	FrameLayout customHomeView  = new FrameLayout(context);
-    	
-    	View itemView = new CustomTileView(context, customHomeView, 11, 0, "지수");
-    	//FrameLayout.LayoutParams params = new FrameLayout.LayoutParams(148 , 148);
-    	//subLayout.addView(itemView, params);
-    	LayoutUtil.addChildRetina(customHomeView, itemView, 148 , 148);
+    	CustomHomeView customHomeView  = new CustomHomeView(context);
     	
     	sv.addView(customHomeView, LayoutParams.MATCH_PARENT, LayoutParams.MATCH_PARENT);
     	sv.setVerticalScrollBarEnabled(false);
