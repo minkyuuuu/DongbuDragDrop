@@ -128,8 +128,8 @@ public class CustomHomeManager {
 	 * @param type : 셀 크기종류 : 11,21,22,32,42
 	 * @param celltype : 셀이 소속될 줄의 높이 : 1:single line, 2:doubleline
 	 * @return
-	 * 예, sizeType=="11") "patterns1":["1", "2" , "3", "4"], "patterns2":["1", "2" , "3", "4", "5", "6", "7", "8"])
-	 * 예, sizeType=="21") "patterns1":["1,2", "2,3", "3,4"], "patterns2":["1,2", "2,3", "3,4", "5,6", "6,7", "7,8"])
+	 * 예, sizeType=="11") "patterns1":["1", "2" , "3", "4"] or "patterns2":["1", "2" , "3", "4", "5", "6", "7", "8"])
+	 * 예, sizeType=="21") "patterns1":["1,2", "2,3", "3,4"] or "patterns2":["1,2", "2,3", "3,4", "5,6", "6,7", "7,8"])
 	 */
 	public ArrayList<String> getPatterns(String type, String celltype) {
 		PatternInfo patternInfo = mDictionaryPatternData.get(type);
@@ -189,11 +189,11 @@ public class CustomHomeManager {
 	public ArrayList<String> getPatternRects(String type, String celltype) {
 		PatternInfo patternInfo = mDictionaryPatternData.get(type);
 		
-		ArrayList<String> patterns = null;
-		if(Integer.valueOf(celltype) == Constant.CellType.cellType_Single) patterns = patternInfo.getPatterns1();
-		if(Integer.valueOf(celltype) == Constant.CellType.cellType_Double) patterns = patternInfo.getPatterns2();
+		ArrayList<String> patternRects = null;
+		if(Integer.valueOf(celltype) == Constant.CellType.cellType_Single) patternRects = patternInfo.getPatternrects1();
+		if(Integer.valueOf(celltype) == Constant.CellType.cellType_Double) patternRects = patternInfo.getPatternrects2();
 		
-		return patterns;
+		return patternRects;
 		
 	}
 	

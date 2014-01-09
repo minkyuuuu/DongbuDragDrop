@@ -32,7 +32,7 @@ public class CustomHomeMain extends LinearLayout
 
     private void loadData(Context context)
     {
-    	CustomHomeManager mCustomManager = CustomHomeManager.getInstance(context);
+    	CustomHomeManager.getInstance(context);
     }
     
     private void init(Context context)
