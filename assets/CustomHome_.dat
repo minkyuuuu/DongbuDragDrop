@@ -64,19 +64,19 @@
                 "rect":"{{0,4},{74,74}}",
                 "type":"11",
                 "moduletype":"3",
-                "itemcode":"주식잔고"
+                "itemcode":"12345"
             },
             {
                 "rect":"{{0,82},{74,74}}",
                 "type":"11",
                 "moduletype":"2",
-                "itemcode":"S&P500"
+                "itemcode":"12345"
             },
             {
                 "rect":"{{78,4},{230,152}}",
                 "type":"32",
-                "moduletype":"1",
-                "itemcode":"현대증권"
+                "moduletype":"2",
+                "itemcode":"12345"
             }
         ]
     },
@@ -88,19 +88,19 @@
                 "rect":"{{0,4},{74,74}}",
                 "type":"11",
                 "moduletype":"1",
-                "itemcode":"롯데"
+                "itemcode":"12345"
             },
             {
                 "rect":"{{78,4},{74,74}}",
                 "type":"11",
-                "moduletype":"3",
-                "itemcode":"가판뉴스"
+                "moduletype":"1",
+                "itemcode":"12345"
             },
             {
                 "rect":"{{156,4},{152,74}}",
                 "type":"21",
-                "moduletype":"1",
-                "itemcode":"신세계"
+                "moduletype":"2",
+                "itemcode":"12345"
             }
         ]
     },
@@ -112,25 +112,13 @@
                 "rect":"{{0,4},{152,74}}",
                 "type":"21",
                 "moduletype":"0",
-                "itemcode":"KOSPI"
+                "itemcode":"12345"
             },
             {
                 "rect":"{{156,4},{152,74}}",
                 "type":"21",
-                "moduletype":"1",
-                "itemcode":"삼성전자"
-            }
-        ]
-    },
-    {
-        "celltype":"2",
-        "items":
-        [
-            {
-                "rect":"{{0,4},{308,152}}",
-                "type":"42",
-                "moduletype":"1",
-                "itemcode":"동부증권"
+                "moduletype":"3",
+                "itemcode":"12345"
             }
         ]
     },
@@ -142,19 +130,19 @@
                 "rect":"{{0,4},{230,152}}",
                 "type":"32",
                 "moduletype":"1",
-                "itemcode":"대우증권"
+                "itemcode":"12345"
             },
             {
                 "rect":"{{234,4},{74,74}}",
                 "type":"11",
                 "moduletype":"1",
-                "itemcode":"한화생명"
+                "itemcode":"12345"
             },
             {
                 "rect":"{{234,82},{74,74}}",
                 "type":"11",
                 "moduletype":"2",
-                "itemcode":"코스닥"
+                "itemcode":"12345"
             }
         ]
     },
@@ -166,19 +154,19 @@
                 "rect":"{{0,4},{152,74}}",
                 "type":"21",
                 "moduletype":"0",
-                "itemcode":"KOSDAQ"
+                "itemcode":"12345"
             },
             {
                 "rect":"{{0,82},{74,74}}",
                 "type":"11",
                 "moduletype":"3",
-                "itemcode":"리서치"
+                "itemcode":"12345"
             },
             {
                 "rect":"{{78,82},{74,74}}",
                 "type":"11",
                 "moduletype":"2",
-                "itemcode":"브렌트 유"
+                "itemcode":"12345"
             }
         ]
     },
@@ -190,31 +178,31 @@
                 "rect":"{{0,4},{74,74}}",
                 "type":"11",
                 "moduletype":"1",
-                "itemcode":"교보문고"
+                "itemcode":"12345"
             },
             {
                 "rect":"{{78,4},{74,74}}",
                 "type":"11",
                 "moduletype":"1",
-                "itemcode":"농심"
+                "itemcode":"12345"
             },
             {
                 "rect":"{{0,82},{74,74}}",
                 "type":"11",
                 "moduletype":"3",
-                "itemcode":"테마&섹터"
+                "itemcode":"12345"
             },
             {
                 "rect":"{{78,82},{74,74}}",
                 "type":"11",
                 "moduletype":"2",
-                "itemcode":"금"
+                "itemcode":"12345"
             },
             {
                 "rect":"{{156,4},{152,152}}",
                 "type":"22",
                 "moduletype":"0",
-                "itemcode":"나스닥"
+                "itemcode":"12345"
             }
         ]
     },
@@ -225,31 +213,10 @@
             {
                 "rect":"{{0,4},{308,152}}",
                 "type":"42",
-                "moduletype":"2",
-                "itemcode":"투자자별 매매동향"
+                "moduletype":"3",
+                "itemcode":"12345"
             }
-        ]
-    },
-    {
-        "celltype":"2",
-        "items":
-        [
-            {
-                "rect":"{{0,4},{152,152}}",
-                "type":"22",
-                "moduletype":"0",
-                "itemcode":"니케이255"
-
-            },
-            {
-                "rect":"{{156,4},{152,152}}",
-                "type":"22",
-                "moduletype":"2",
-                "itemcode":"투자자별 매매현황"
-            }
-
         ]
     }
-
 ]
 }

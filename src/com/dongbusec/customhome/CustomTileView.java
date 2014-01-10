@@ -73,7 +73,7 @@ public class CustomTileView extends View {
 			setBackgroundDrawable(ResourceManager.getSingleImage("frame_box_red.9"));
 		}
 		if(moduleType.equals("1")) {
-			setBackgroundDrawable(ResourceManager.getSingleImage("frame_box_blue.9"));
+			setBackgroundDrawable(ResourceManager.getSingleImage("frame_box_red.9"));
 		}
 		if(moduleType.equals("2")) {
 			setBackgroundDrawable(ResourceManager.getSingleImage("frame_box_orange.9"));

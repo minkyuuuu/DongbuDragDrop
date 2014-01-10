@@ -17,31 +17,30 @@ import com.dongbusec.customhome.bean.CustomHome.Item;
  */
 public class CustomHomeView extends FrameLayout {
 	ArrayList<CustomHome> mArrayData;	// 모든 row의 배치 정보
-	ArrayList<HashMap<String, Object>> mArrayChildView;
+	ArrayList<CustomHomeItemView> mArrayChildView;
+	//ArrayList<HashMap<String, Object>> mArrayChildView;
 	CustomHomeManager mCustomManager;
 
 	public CustomHomeView(Context context) {
 		super(context);
-        initChild(context);
-        startInitialize(context);
+        init(context);
+        makeChild(context);
+        setData(context);
 	}
-	
-    private void initChild(Context context)
+
+	private void init(Context context)
     {
     	CustomHomeManager cm = CustomHomeManager.getInstance(context);
     	mArrayData = cm.getData();
-    	mArrayChildView = new ArrayList<HashMap<String, Object>>();
+    	mArrayChildView = new ArrayList<CustomHomeItemView>();
+    	//mArrayChildView = new ArrayList<HashMap<String, Object>>();
     	
     	mCustomManager = CustomHomeManager.getInstance(context); 
     }
 
-    private void startInitialize(Context context)
-    {
-    	makeChild(context);
-    }
-
 	/**
 	 * 자식 창 만드는 함수
+	 * cellType은 높이를 의미한다. (1줄 or 2줄)
 	 */
 	private void makeChild(Context context) {
     	LayoutUtil.noCacheAnimation(this);
@@ -50,6 +49,7 @@ public class CustomHomeView extends FrameLayout {
 		HashMap<String, Object> childDictionary = new HashMap<String, Object>();
 		Integer totalHeight = 0; // tileView가 위치를 y값 
 		ArrayList<Integer> cellHeight = new ArrayList<Integer>();
+		
     	for(int i = 0; i < mArrayData.size(); i++) {
     		ArrayList<Item> dataArray = mArrayData.get(i).getItems();	// 하나의 row 정보, 안드로이드에서는 클래스로 처리 getItems(), 아이폰에서는 getItems()대신 맵으로 처리
     		String cellType = mArrayData.get(i).getCelltype();
@@ -60,8 +60,8 @@ public class CustomHomeView extends FrameLayout {
     			totalHeight += cellHeight.get(i-1);
     		}
     		
-    		childArray.clear();			//	하나의 row에 해당하는 CustomHomeItemView를 담는 배열 
-    		childDictionary.clear();	//  전체 row에 해당하는 CustomHomeItemView를 담는 배
+    		//childArray.clear();			//	하나의 row에 해당하는 CustomHomeItemView를 담는 배열 
+    		//childDictionary.clear();	//  전체 row에 해당하는 CustomHomeItemView를 담는 배
     		
     		String rectString = "";
     		int width, height, x, y;
@@ -74,7 +74,7 @@ public class CustomHomeView extends FrameLayout {
     			// 안드로이드에서는 Rect으로 변환하여 사용해야한다. Rect(left, top, right, bottom)
     			// 변환하는 시점은 json 파싱할 때가 아니구 CustomHomeItemView를 생성할 때 내부 필드에 등록하면 될 것 같다.
     			rectString = itemData.getRect();
-    			CustomHomeItemView itemView = makeView(context);
+    			CustomHomeItemView itemView = new CustomHomeItemView(context);
     			itemView.setRowIndex(i);	// row 위치 
     			itemView.setTag(j);			// row 안에서의 순서?
     			
@@ -83,10 +83,10 @@ public class CustomHomeView extends FrameLayout {
     			itemView.setItemCode(itemData.getItemcode());		// 화면에 보여질 실제 데이타를 위한 code...
     			
     			itemView.setPattern(mCustomManager.getPatternString(itemData.getType(), cellType, rectString));
-    			Rect rect = covertToRect(rectString);
+    			Rect rect = convertToRect(rectString);
     			itemView.setLocalRect(rect);
     			
-    			itemView.loadChildChildView(context);	// 바탕이될 CustomTileView를 생성한다.
+    			itemView.loadTileView(context);	// 바탕이될 CustomTileView를 생성한다.
     			childArray.add(itemView);
     			
     			// 만든 CustomHomeItemView 위치와 크기를 계산하여 화면에 그려준다.
@@ -96,17 +96,46 @@ public class CustomHomeView extends FrameLayout {
     			x = itemView.getX();
     			y = itemView.getY();
     			LayoutUtil.addChildRetina(this, itemView, width, height, x, totalHeight + y);
+    			
+    			// test
+    			//if(!itemView.getType().equals("11")) itemView.setEditMode(true);
+    			
+    			mArrayChildView.add(itemView);
     		}
     		
-    		childDictionary.put(Constant.KEY_ITEMS, childArray);
-    		childDictionary.put(Constant.KEY_RECT, rectString);
-    		childDictionary.put(Constant.KEY_CELLTYPE, cellType);
+//    		childDictionary.put(Constant.KEY_ITEMS, childArray);
+//    		childDictionary.put(Constant.KEY_RECT, rectString);		// ???
+//    		childDictionary.put(Constant.KEY_CELLTYPE, cellType);
+//    		
+//    		mArrayChildView.add(childDictionary);	// childDictionary : 중복되는게 아닌지... CustomHomeItemView안에 rect와 celltype이 있는데... 굳이 가져야하나...
     		
-    		mArrayChildView.add(childDictionary);	// childDictionary : 중복되는게 아닌지... CustomHomeItemView안에 rect와 celltype이 있는데... 굳이 가져야하나...
+    		
     	}
 	}
+	
+    /**
+     * 만들어진 자식 창()에 통신을 통해서 데이타를 가져온다.itemCode가 통신에 사용될 데이타일 것이다.
+     * 지금은 테스트용으로 itemCode의 내용 보여준다. 
+     */
+    private void setData(Context context) {
+    	for(int i=0; i<mArrayChildView.size(); i++) {
+			CustomHomeItemView itemView = mArrayChildView.get(i);
+			itemView.loadData(context);
+    	}
+    	
+//    	for(int i=0; i<mArrayChildView.size(); i++) {
+//    		HashMap<String, Object> childDictionary = mArrayChildView.get(i);
+//    		ArrayList<CustomHomeItemView> childArray = (ArrayList<CustomHomeItemView>) childDictionary.get(Constant.KEY_ITEMS);
+//    		for(int j = 0; j < childArray.size(); j++) {
+//    			CustomHomeItemView itemView = childArray.get(j);
+//    			itemView.loadData(context);
+//    		}
+//    	}
+    	
+		
+	}
 
-	private Rect covertToRect(String rectString) {
+	private Rect convertToRect(String rectString) {
 		String str = rectString.replaceAll("\\{", "");
 		str = str.replaceAll("\\}", "");
 		str = str.replaceAll(" ", "");
@@ -120,13 +149,6 @@ public class CustomHomeView extends FrameLayout {
 		return new Rect(left, top, right, bottom);
 	}
 
-	private CustomHomeItemView makeView(Context context) {
-		CustomHomeItemView itemView = new CustomHomeItemView(context);
-		
-		if(itemView != null) return itemView;
-		return null;
-	}
-	
 	/**
 	 * celltype 반환 
 	 * @param rect

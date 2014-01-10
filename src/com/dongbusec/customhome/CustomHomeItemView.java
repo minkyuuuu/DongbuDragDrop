@@ -1,33 +1,37 @@
 package com.dongbusec.customhome;
 
 import android.content.Context;
-import android.graphics.Rect;
+import android.graphics.Typeface;
 import android.graphics.drawable.Drawable;
+import android.view.Gravity;
 import android.view.View;
+import android.widget.ImageView;
+import android.widget.TextView;
+import android.widget.FrameLayout.LayoutParams;
 
-public class CustomHomeItemView extends View {
+import com.dongbusec.corelib.util.LayoutUtil;
+import com.dongbusec.corelib.util.ResourceManager;
 
-	String type = "";
-	String moduleType = "";
-	String itemCode = "";
-
-	String pattern = "";	
-	int rowIndex = -1;
-	Rect originalRect = new Rect();
-	Rect localRect = new Rect();
-	boolean isDragging = false;
+public class CustomHomeItemView extends BaseView {
 	
-	int width;
-	int height;
-	int x;
-	int y;
+	ImageView searchIcon, changeboxIcon, deleteIcon, palmIcon;
 
 	public CustomHomeItemView(Context context) {
 		super(context);
-		initChild(context);
+		init(context);
 	}
 
-	private void initChild(Context context) {
+	private void init(Context context) {
+		searchIcon = new ImageView(context);
+		changeboxIcon = new ImageView(context);
+		deleteIcon = new ImageView(context);
+		palmIcon = new ImageView(context);
+		
+		searchIcon.setBackgroundDrawable(ResourceManager.getImage("btn_search02"));
+		changeboxIcon.setBackgroundDrawable(ResourceManager.getImage("btn_change"));
+		
+		deleteIcon.setBackgroundDrawable(ResourceManager.getImage("btn_del03"));
+		palmIcon.setBackgroundDrawable(ResourceManager.getImage("btn_move"));
 	}
 
 	/**
@@ -35,7 +39,7 @@ public class CustomHomeItemView extends View {
 	 * 먼저 배경에 해당하는 tileView를 만들어 이것을 배경으로 설정한다.
 	 * CustomHomeView에서 기본 생성자를 통해 만든 이 객체에 여러가지 정보를 셋팅한다. (화면에서의 위치관련 값(rowIndex), type, moduletype, ...)
 	 */
-	public void loadChildChildView(Context context) {
+	public void loadTileView(Context context) {
 
 		View itemView = new CustomTileView(context, Integer.parseInt(type), moduleType, itemCode);
 		Drawable drawable = itemView.getBackground();
@@ -45,142 +49,187 @@ public class CustomHomeItemView extends View {
 //		Bitmap bm = itemView.getDrawingCache();
 	}
 	
-	public void setWidth(int type) {
-		switch(type) {
-        case Constant.Type.TYPE_1x1:
-            width = Constant.SIZE_ONE;
-            break;
-            
-        case Constant.Type.TYPE_2x1:
-        	width = Constant.SIZE_TWO;
-        	break;
-            
-        case Constant.Type.TYPE_2x2:
-        	width = Constant.SIZE_TWO;
-        	break;
-            
-        case Constant.Type.TYPE_3x2:
-        	width = Constant.SIZE_THREE;
-        	break;
-            
-        case Constant.Type.TYPE_4x2:
-        	width = Constant.SIZE_FOUR;
-        	break;
-            
-        default:
-            break;
+	/**
+	 * 화면에 배치될 때 한 번만 처리된다. 그 이후는 내부 정보만 달라진다.???
+	 * 아니다. 같은 type일  moduleType이 변경될 수 있다.
+	 * 
+	 * 
+	 * 화면에 보여줄 데이타를 가져와서 적당한 위치에 보여준다. (type, moduletype에 따라 배치가 달라진다.)
+	 * type, moduletype, itemcode에 따른 각각의 위치가 있을것임...
+	 * 
+	 * 1) 기본아이콘(돋보기 아이콘, 박스변경아이콘, 삭제아이콘, 손바다아이콘) 배치
+	 * 2) get data from network
+	 * 3) deploy data
+	 * 
+	 * moduleType : 0(지수), 1(종목), 2(매매동향), 3(링크)
+	 */
+	public void loadData(Context context) {
+		// 기본요소 배치
+		if(type.equals("11")) deployIcon_11();
+		if(type.equals("21")) deployIcon_21();
+		if(type.equals("22")) deployIcon_22();
+		if(type.equals("32")) deployIcon_32();
+		if(type.equals("42")) deployIcon_42();
+		
+		if(isEditMode) {
+			searchIcon.setVisibility(INVISIBLE);
+			changeboxIcon.setVisibility(INVISIBLE);
+			deleteIcon.setVisibility(INVISIBLE);
+			palmIcon.setVisibility(INVISIBLE);
+			
+			// test
+			if(!type.equals("11")) {
+				if(moduleType.equals("2") || moduleType.equals("3")) {
+					changeboxIcon.setVisibility(VISIBLE);
+				}
+				else {
+					searchIcon.setVisibility(VISIBLE);
+					deleteIcon.setVisibility(VISIBLE);
+				}
+				
+				palmIcon.setVisibility(VISIBLE);
+			}
+				
+		}
+
+		if(moduleType.equals("0") || moduleType.equals("1")) {	// 지수, 종목 
+			if(type.equals("11")) deployData_0_11();
+			if(type.equals("21")) deployData_0_21();
+			if(type.equals("22")) deployData_0_22();
+			if(type.equals("32")) deployData_0_32();
+			if(type.equals("42")) deployData_0_42();
+		}
+		
+		if(moduleType.equals("2")) {							// 매매동향 
+			if(type.equals("11")) deployData_2_11();
+			if(type.equals("22")) deployData_2_22();
+			if(type.equals("42")) deployData_2_42();
+		}
+		
+		if(moduleType.equals("3")) {							// 링크
+			if(type.equals("11")) deployData_3_11();
 		}
 	}
 	
-	public void setHeight(int type) {
-		switch(type) {
-		case Constant.Type.TYPE_1x1:
-		case Constant.Type.TYPE_2x1:
-			height = Constant.SIZE_ONE;
-			break;
-			
-		case Constant.Type.TYPE_2x2:
-		case Constant.Type.TYPE_3x2:
-		case Constant.Type.TYPE_4x2:
-			height = Constant.SIZE_TWO;
-			break;
-			
-		default:
-			break;
-		}
-	}
-	
-	public int getX() {
-		int x = 12;
+	// ------------------------------------------
+	// Basic Icon
+	// 돋보기 아이콘, 박스변경아이콘, 삭제아이콘, 손바다아이콘
+	// ------------------------------------------
+	private void deployIcon_11() {
+		LayoutUtil.addChildRetina(this, searchIcon, LayoutParams.WRAP_CONTENT, LayoutParams.WRAP_CONTENT, 4, 0);
+		//LayoutUtil.addChildRetina(this, changeboxIcon, LayoutParams.WRAP_CONTENT, LayoutParams.WRAP_CONTENT, 0, 20, 8, 0, Gravity.TOP | Gravity.RIGHT);
 		
-		if(localRect.left == 0) x = Constant.POSITION_X_0;
-		if(localRect.left == 78) x = Constant.POSITION_X_78;
-		if(localRect.left == 156) x = Constant.POSITION_X_156;
-		if(localRect.left == 234) x = Constant.POSITION_X_234;
-			
-		return x;
+		LayoutUtil.addChildRetina(this, deleteIcon, LayoutParams.WRAP_CONTENT, LayoutParams.WRAP_CONTENT, 74, 0);
+		LayoutUtil.addChildRetina(this, palmIcon, LayoutParams.WRAP_CONTENT, LayoutParams.WRAP_CONTENT, 0, 0, 0, 6, Gravity.CENTER_HORIZONTAL | Gravity.BOTTOM);
 	}
-	
-	public int getY() {
-		int y = 0;
+	private void deployIcon_21() {
+		LayoutUtil.addChildRetina(this, searchIcon, LayoutParams.WRAP_CONTENT, LayoutParams.WRAP_CONTENT, 0, 0, 74, 0, Gravity.TOP | Gravity.RIGHT);
+		LayoutUtil.addChildRetina(this, deleteIcon, LayoutParams.WRAP_CONTENT, LayoutParams.WRAP_CONTENT, 0, 0, 4, 0, Gravity.TOP | Gravity.RIGHT);
+		LayoutUtil.addChildRetina(this, palmIcon, LayoutParams.WRAP_CONTENT, LayoutParams.WRAP_CONTENT, 0, 0, 0, 6, Gravity.CENTER_HORIZONTAL | Gravity.BOTTOM);
+	}
+	private void deployIcon_22() {
+		LayoutUtil.addChildRetina(this, searchIcon, LayoutParams.WRAP_CONTENT, LayoutParams.WRAP_CONTENT, 0, 0, 74, 0, Gravity.TOP | Gravity.RIGHT);
+		LayoutUtil.addChildRetina(this, changeboxIcon, LayoutParams.WRAP_CONTENT, LayoutParams.WRAP_CONTENT, 0, 10, 8, 0, Gravity.TOP | Gravity.RIGHT);
 		
-		if(localRect.top == 4) y = Constant.POSITION_Y_4;
-		if(localRect.top == 82) y = Constant.POSITION_Y_82;
-			
-		return y;
+		LayoutUtil.addChildRetina(this, deleteIcon, LayoutParams.WRAP_CONTENT, LayoutParams.WRAP_CONTENT, 0, 0, 4, 0, Gravity.TOP | Gravity.RIGHT);
+		LayoutUtil.addChildRetina(this, palmIcon, LayoutParams.WRAP_CONTENT, LayoutParams.WRAP_CONTENT, 0, 0, 0, 0, Gravity.CENTER);
+	}
+	private void deployIcon_32() {
+		LayoutUtil.addChildRetina(this, searchIcon, LayoutParams.WRAP_CONTENT, LayoutParams.WRAP_CONTENT, 0, 0, 74, 0, Gravity.TOP | Gravity.RIGHT);
+		LayoutUtil.addChildRetina(this, deleteIcon, LayoutParams.WRAP_CONTENT, LayoutParams.WRAP_CONTENT, 0, 0, 4, 0, Gravity.TOP | Gravity.RIGHT);
+		LayoutUtil.addChildRetina(this, palmIcon, LayoutParams.WRAP_CONTENT, LayoutParams.WRAP_CONTENT, 0, 0, 0, 0, Gravity.CENTER);
+	}
+	private void deployIcon_42() {
+		LayoutUtil.addChildRetina(this, searchIcon, LayoutParams.WRAP_CONTENT, LayoutParams.WRAP_CONTENT, 0, 0, 74, 0, Gravity.TOP | Gravity.RIGHT);
+		LayoutUtil.addChildRetina(this, changeboxIcon, LayoutParams.WRAP_CONTENT, LayoutParams.WRAP_CONTENT, 0, 20, 8, 0, Gravity.TOP | Gravity.RIGHT);
+		
+		LayoutUtil.addChildRetina(this, deleteIcon, LayoutParams.WRAP_CONTENT, LayoutParams.WRAP_CONTENT, 0, 0, 4, 0, Gravity.TOP | Gravity.RIGHT);
+		LayoutUtil.addChildRetina(this, palmIcon, LayoutParams.WRAP_CONTENT, LayoutParams.WRAP_CONTENT, 0, 0, 0, 0, Gravity.CENTER);
 	}
 
-	public String getType() {
-		return type;
+	// ---------------
+	// 지수, 종목
+	// ---------------
+	private void deployData_0_11() {
+        TextView tv = new TextView(mContext);
+        LayoutUtil.setFont(tv, 1, Typeface.BOLD, 20, 100, "ffffff", Gravity.CENTER);
+        tv.setText(itemCode);
+        LayoutUtil.addChildRetina(this, tv, LayoutParams.WRAP_CONTENT, LayoutParams.WRAP_CONTENT, 0, 30, 0, 0, Gravity.CENTER_HORIZONTAL | Gravity.TOP);
 	}
-
-	public void setType(String type) {
-		this.type = type;
-		setWidth(Integer.parseInt(type));
-		setHeight(Integer.parseInt(type));
+	private void deployData_0_21() {
+        TextView tv = new TextView(mContext);
+        LayoutUtil.setFont(tv, 1, Typeface.BOLD, 20, 100, "ffffff", Gravity.CENTER);
+        tv.setText(itemCode);
+        LayoutUtil.addChildRetina(this, tv, LayoutParams.WRAP_CONTENT, LayoutParams.WRAP_CONTENT, 20, 14, 0, 0);
+	}
+	private void deployData_0_22() {
+        TextView tv = new TextView(mContext);
+        LayoutUtil.setFont(tv, 1, Typeface.BOLD, 20, 100, "ffffff", Gravity.CENTER);
+        tv.setText(itemCode);
+        LayoutUtil.addChildRetina(this, tv, LayoutParams.WRAP_CONTENT, LayoutParams.WRAP_CONTENT, 26, 20, 0, 0);
+	}
+	private void deployData_0_32() {
+		ImageView logo = new ImageView(mContext);
+		logo.setBackgroundDrawable(ResourceManager.getSingleImage("ic_icon"));
+		LayoutUtil.addChildRetina(this, logo, 104, 104, 28, 30, 0, 0);
+		
+        TextView tv = new TextView(mContext);
+        LayoutUtil.setFont(tv, 1, Typeface.BOLD, 20, 100, "ffffff", Gravity.CENTER);
+        tv.setText(itemCode);
+        LayoutUtil.addChildRetina(this, tv, LayoutParams.WRAP_CONTENT, LayoutParams.WRAP_CONTENT, 170, 26, 0, 0);
+	}
+	private void deployData_0_42() {
+		ImageView logo = new ImageView(mContext);
+		logo.setBackgroundDrawable(ResourceManager.getSingleImage("ic_icon"));
+		LayoutUtil.addChildRetina(this, logo, 104, 104, 28, 30, 0, 0);
+		
+        TextView tv = new TextView(mContext);
+        LayoutUtil.setFont(tv, 1, Typeface.BOLD, 22, 100, "ffffff", Gravity.CENTER);	// 22 size
+        tv.setText(itemCode);
+        LayoutUtil.addChildRetina(this, tv, LayoutParams.WRAP_CONTENT, LayoutParams.WRAP_CONTENT, 170, 26, 0, 0);
 	}
 	
-	public int getItemViewWidth() {
-		return width;
+	// ---------------
+	// 매매동향 
+	// ---------------
+	private void deployData_2_11() {
+        TextView tv = new TextView(mContext);
+        LayoutUtil.setFont(tv, 1, Typeface.BOLD, 18, 100, "ffffff", Gravity.CENTER);	// 18 size
+        tv.setText(itemCode);
+        LayoutUtil.addChildRetina(this, tv, LayoutParams.WRAP_CONTENT, LayoutParams.WRAP_CONTENT, 0, 18, 0, 0, Gravity.CENTER_HORIZONTAL | Gravity.TOP);
 	}
-	public int getItemViewHeight() {
-		return height;
+	private void deployData_2_22() {
+        TextView tv = new TextView(mContext);
+        LayoutUtil.setFont(tv, 1, Typeface.BOLD, 26, 100, "ffffff", Gravity.CENTER);	// 26 size
+        tv.setText(itemCode);
+        LayoutUtil.addChildRetina(this, tv, LayoutParams.WRAP_CONTENT, LayoutParams.WRAP_CONTENT, 20, 24, 0, 0);
 	}
-
-	public String getModuleType() {
-		return moduleType;
-	}
-
-	public void setModuleType(String moduleType) {
-		this.moduleType = moduleType;
-	}
-
-	public String getItemCode() {
-		return itemCode;
-	}
-
-	public void setItemCode(String itemCode) {
-		this.itemCode = itemCode;
-	}
-
-	public String getPattern() {
-		return pattern;
+	private void deployData_2_42() {
+        TextView tv = new TextView(mContext);
+        LayoutUtil.setFont(tv, 1, Typeface.BOLD, 36, 100, "ffffff", Gravity.CENTER);	// 36 size
+        tv.setText(itemCode);
+        LayoutUtil.addChildRetina(this, tv, LayoutParams.WRAP_CONTENT, LayoutParams.WRAP_CONTENT, 30, 28, 0, 0);
 	}
 
-	public void setPattern(String pattern) {
-		this.pattern = pattern;
-	}
-
-	public int getRowIndex() {
-		return rowIndex;
-	}
-
-	public void setRowIndex(int rowIndex) {
-		this.rowIndex = rowIndex;
-	}
-
-	public Rect getOriginalRect() {
-		return originalRect;
-	}
-
-	public void setOriginalRect(Rect originalRect) {
-		this.originalRect = originalRect;
-	}
-
-	public Rect getLocalRect() {
-		return localRect;
-	}
-
-	public void setLocalRect(Rect localRect) {
-		this.localRect = localRect;
-	}
-
-	public boolean isDragging() {
-		return isDragging;
-	}
-
-	public void setDragging(boolean isDragging) {
-		this.isDragging = isDragging;
+	// ---------------
+	// 링크
+	// ---------------
+	private void deployData_3_11() {
+		String str = "";
+		if(itemCode.equalsIgnoreCase("주식잔고")) str = "ico_link01";
+		if(itemCode.equalsIgnoreCase("가판뉴스")) str = "ico_link02";
+		if(itemCode.equalsIgnoreCase("리서치")) str = "ico_link03";
+		if(itemCode.equalsIgnoreCase("테마&섹터")) str = "ico_link04";
+		if(itemCode.equalsIgnoreCase("DOMA")) str = "ico_link05";
+			
+		ImageView icon = new ImageView(mContext);
+		icon.setBackgroundDrawable(ResourceManager.getImage(str));
+		LayoutUtil.addChildRetina(this, icon, LayoutParams.WRAP_CONTENT, LayoutParams.WRAP_CONTENT, 0, 18, 0, 0, Gravity.CENTER_HORIZONTAL | Gravity.TOP);
+		
+        TextView tv = new TextView(mContext);
+        LayoutUtil.setFont(tv, 1, Typeface.BOLD, 22, 100, "ffffff", Gravity.CENTER);	// 22 size
+        tv.setText(itemCode);
+        LayoutUtil.addChildRetina(this, tv, LayoutParams.WRAP_CONTENT, LayoutParams.WRAP_CONTENT, 0, 104, 0, 0, Gravity.CENTER_HORIZONTAL | Gravity.TOP);
 	}
 
 }

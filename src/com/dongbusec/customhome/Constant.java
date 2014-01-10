@@ -42,11 +42,11 @@ public interface Constant {
 	String KEY_PATTERNINFO = "patterninfo";
 	
 	String KEY_CUSTOMHOME = "customhome";
-	String KEY_CELLTYPE = "patterninfo";
-	String KEY_ITEMS = "patterninfo";
-	String KEY_RECT = "patterninfo";
-	String KEY_TYPE = "patterninfo";
-	String KEY_MODULETYPE = "patterninfo";
-	String KEY_ITEMCODE = "patterninfo";
+	String KEY_CELLTYPE = "celltype";	// 높이를 의미한다. (1줄 or 2줄)
+	String KEY_ITEMS = "items";
+	String KEY_RECT = "rect";
+	String KEY_TYPE = "type";
+	String KEY_MODULETYPE = "moduletype";
+	String KEY_ITEMCODE = "itemcode";
 	
 }
