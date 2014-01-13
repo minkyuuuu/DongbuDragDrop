@@ -72,11 +72,11 @@ public class CustomHomeManager {
         
         Type type = new TypeToken<HashMap<String, PatternInfo>>(){}.getType();
         mDictionaryPatternData = gson.fromJson(patterninfoStr, type);
-        Log.v(Constant.TAG, "mDictionaryPatternData : " + mDictionaryPatternData);
+        //Log.v(Constant.TAG, "mDictionaryPatternData : " + mDictionaryPatternData);
         
         type = new TypeToken<ArrayList<CustomHome>>() {}.getType();
         mArrayData = gson.fromJson(customhomeStr, type);
-        Log.v(Constant.TAG, "mArrayData : " + mArrayData);
+        //Log.v(Constant.TAG, "mArrayData : " + mArrayData);
         updateData(new ArrayList<CustomHome>(mArrayData));
         
 	}

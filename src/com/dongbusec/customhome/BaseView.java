@@ -2,6 +2,8 @@ package com.dongbusec.customhome;
 
 import android.content.Context;
 import android.graphics.Rect;
+import android.util.Log;
+import android.view.MotionEvent;
 import android.widget.FrameLayout;
 
 public class BaseView extends FrameLayout{
@@ -21,6 +23,7 @@ public class BaseView extends FrameLayout{
 	int height;
 	int x;
 	int y;
+	int realY;
 	
 	boolean isEditMode = true;
 	
@@ -28,6 +31,33 @@ public class BaseView extends FrameLayout{
 		super(context);
 		mContext = context;
 	}
+	
+//	@Override
+//	public boolean onTouchEvent(MotionEvent event) {
+//		// TODO Auto-generated method stub
+//		//return super.onTouchEvent(event);
+//		
+//		final int action = event.getAction();
+//		final int x = (int) event.getX();
+//		final int y = (int) event.getY();	
+//		
+//		switch (action) {
+//			case MotionEvent.ACTION_DOWN:
+//				Log.v("DragDrop", "ACTION_DOWN");
+//				break;
+//			case MotionEvent.ACTION_MOVE:
+//				Log.v("DragDrop", "ACTION_MOVE : (x, y) ---> " + x + "" + y);
+//				break;
+//			case MotionEvent.ACTION_CANCEL:
+//				break;
+//			case MotionEvent.ACTION_UP:
+//				break;
+//			default:
+//				break;
+//		}
+//		return true;
+//	}
+
 
 	public void setWidth(int type) {
 		switch(type) {
@@ -92,6 +122,14 @@ public class BaseView extends FrameLayout{
 		if(localRect.top == 82) y = Constant.POSITION_Y_82;
 			
 		return y;
+	}
+	
+	public int getRealY() {
+		return realY;
+	}
+
+	public void setRealY(int realY) {
+		this.realY = realY;
 	}
 
 	public String getType() {

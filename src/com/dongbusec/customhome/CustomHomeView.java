@@ -4,10 +4,18 @@ import java.util.ArrayList;
 import java.util.HashMap;
 
 import android.content.Context;
+import android.graphics.Bitmap;
 import android.graphics.Rect;
+import android.util.Log;
+import android.view.Gravity;
+import android.view.MotionEvent;
+import android.view.View;
 import android.widget.FrameLayout;
+import android.widget.ImageView;
+import android.widget.ScrollView;
 
 import com.dongbusec.corelib.util.LayoutUtil;
+import com.dongbusec.corelib.util.ResourceManager;
 import com.dongbusec.customhome.bean.CustomHome;
 import com.dongbusec.customhome.bean.CustomHome.Item;
 
@@ -15,11 +23,17 @@ import com.dongbusec.customhome.bean.CustomHome.Item;
  * 기본적으로 커스텀홈에서 사용되는 클래스, 변수, 메소드등의 이름은 아이폰에서 사용한 이름을 사용함.
  *
  */
-public class CustomHomeView extends FrameLayout {
+public class CustomHomeView extends FrameLayout implements View.OnLongClickListener {
+	Context mContext;
+	
 	ArrayList<CustomHome> mArrayData;	// 모든 row의 배치 정보
 	ArrayList<CustomHomeItemView> mArrayChildView;
 	//ArrayList<HashMap<String, Object>> mArrayChildView;
 	CustomHomeManager mCustomManager;
+	
+	ImageView draggingView;
+	ScrollView sv;
+	TouchHandler th;
 
 	public CustomHomeView(Context context) {
 		super(context);
@@ -30,12 +44,18 @@ public class CustomHomeView extends FrameLayout {
 
 	private void init(Context context)
     {
+		mContext = context;
+		
     	CustomHomeManager cm = CustomHomeManager.getInstance(context);
     	mArrayData = cm.getData();
     	mArrayChildView = new ArrayList<CustomHomeItemView>();
     	//mArrayChildView = new ArrayList<HashMap<String, Object>>();
     	
     	mCustomManager = CustomHomeManager.getInstance(context); 
+    	
+//    	sv = (ScrollView) getParent();
+//    	th = new TouchHandler(sv, mContext);
+    	
     }
 
 	/**
@@ -95,11 +115,13 @@ public class CustomHomeView extends FrameLayout {
     			
     			x = itemView.getX();
     			y = itemView.getY();
+    			itemView.setRealY(totalHeight + y);
     			LayoutUtil.addChildRetina(this, itemView, width, height, x, totalHeight + y);
     			
     			// test
     			//if(!itemView.getType().equals("11")) itemView.setEditMode(true);
     			
+    			itemView.setOnLongClickListener(this);
     			mArrayChildView.add(itemView);
     		}
     		
@@ -132,7 +154,74 @@ public class CustomHomeView extends FrameLayout {
 //    		}
 //    	}
     	
+    	//new TouchHandler(this, context);
 		
+	}
+    
+    @Override
+    public boolean onLongClick(View itemView) 
+    {
+    	Log.v("DragDrop", "onLongClick : " + itemView);
+    	Log.v("DragDrop", "onLongClick : " + itemView.toString());
+    	
+//    	sv = (ScrollView) getParent();
+//    	th = new TouchHandler(sv, mContext);
+    	
+    	draggingStart(itemView);
+        return true;
+    }
+
+	private void draggingStart(View itemView) {
+		itemView.buildDrawingCache();
+		Bitmap bitmap = Bitmap.createBitmap(itemView.getDrawingCache());
+		ImageView above = new ImageView(mContext);
+		above.setImageBitmap(bitmap);   
+		
+        //draggingView.setLayoutParams(itemView.getLayoutParams());
+        LayoutParams params = (LayoutParams) itemView.getLayoutParams();
+		int width = ((BaseView) itemView).getItemViewWidth();
+		int height = ((BaseView) itemView).getItemViewHeight();
+		int x = ((BaseView) itemView).getX();
+		int y = ((BaseView) itemView).getRealY();
+		
+		FrameLayout draggingView = new FrameLayout(mContext);
+		draggingView.setBackgroundDrawable(ResourceManager.getSingleImage("frame_edit_shadow"));
+		LayoutUtil.addChildRetina(draggingView, above, width, height, 0,0,0,0, Gravity.CENTER);
+        LayoutUtil.addChildRetina(this, draggingView, width+30, height+30, x, y);
+        draggingView.bringToFront();
+        
+    	sv = (ScrollView) getParent();
+    	th = new TouchHandler(sv, mContext);
+        th.setDraggingView(this, itemView, draggingView);
+        
+		itemView.setVisibility(INVISIBLE);
+	}
+
+	@Override
+	public boolean onTouchEvent(MotionEvent event) {
+		// TODO Auto-generated method stub
+		
+		
+		final int action = event.getAction();
+		final int x = (int) event.getX();
+		final int y = (int) event.getY();	
+		
+		switch (action) {
+			case MotionEvent.ACTION_DOWN:
+				Log.v("DragDrop", "ACTION_DOWNxxxxx");
+				break;
+			case MotionEvent.ACTION_MOVE:
+				Log.v("DragDrop", "ACTION_MOVExxx : (x, y) ---> " + x + "" + y);
+				break;
+			case MotionEvent.ACTION_CANCEL:
+				break;
+			case MotionEvent.ACTION_UP:
+				break;
+			default:
+				break;
+		}
+		//return true;
+		return super.onTouchEvent(event);
 	}
 
 	private Rect convertToRect(String rectString) {

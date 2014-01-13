@@ -86,6 +86,7 @@ public class CustomHomeMain extends LinearLayout
     	
     	sv.addView(customHomeView, LayoutParams.MATCH_PARENT, LayoutParams.MATCH_PARENT);
     	sv.setVerticalScrollBarEnabled(false);
+    	//new TouchHandler(sv, context);
     	LayoutUtil.addChildWeightRetina(this, sv, LayoutParams.MATCH_PARENT , LayoutParams.WRAP_CONTENT, 1f);
     	
     	// -------
