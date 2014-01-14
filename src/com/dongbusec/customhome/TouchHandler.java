@@ -100,7 +100,7 @@ public final class TouchHandler implements View.OnTouchListener {
 			return true;
 
 		case MotionEvent.ACTION_MOVE:
-			//Log.v(Constant.TAG, "ACTION_MOVE : x ---> " + x);
+			Log.v(Constant.TAG, "ACTION_MOVE : x ---> " + x);
 			//Log.v(Constant.TAG, "ACTION_MOVE : y ---> " + y);
 			params.leftMargin = xx(x);
 			params.topMargin = yy(sv.getScrollY() + y);

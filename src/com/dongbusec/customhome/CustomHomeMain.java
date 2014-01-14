@@ -80,13 +80,12 @@ public class CustomHomeMain extends LinearLayout
     	// ------------------------
     	// 중간영역 (control region)
     	// ------------------------
-    	ScrollView sv = new ScrollView(context);
+    	CustomScrollView sv = new CustomScrollView(context);
     	sv.setBackgroundColor(LayoutUtil.getHexaColor(60, "1f273a"));
     	CustomHomeView customHomeView  = new CustomHomeView(context);
     	
     	sv.addView(customHomeView, LayoutParams.MATCH_PARENT, LayoutParams.MATCH_PARENT);
     	sv.setVerticalScrollBarEnabled(false);
-    	//new TouchHandler(sv, context);
     	LayoutUtil.addChildWeightRetina(this, sv, LayoutParams.MATCH_PARENT , LayoutParams.WRAP_CONTENT, 1f);
     	
     	// -------

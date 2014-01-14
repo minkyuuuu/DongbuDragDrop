@@ -32,6 +32,8 @@ public class CustomHomeItemView extends BaseView {
 		
 		deleteIcon.setBackgroundDrawable(ResourceManager.getImage("btn_del03"));
 		palmIcon.setBackgroundDrawable(ResourceManager.getImage("btn_move"));
+		
+		setOnLongClickListener(this);
 	}
 
 	/**

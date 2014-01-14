@@ -17,6 +17,8 @@ public interface Constant {
 		int cellType_Double = 2;
 	}
 	
+	int FRAME_SHADOW_SIZE = 30;
+	
 	Integer SIZE_ONE 	= 148;
 	Integer SIZE_TWO 	= 304;
 	Integer SIZE_THREE 	= 460;

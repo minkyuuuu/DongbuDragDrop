@@ -3,10 +3,10 @@ package com.dongbusec.customhome;
 import android.content.Context;
 import android.graphics.Rect;
 import android.util.Log;
-import android.view.MotionEvent;
+import android.view.View;
 import android.widget.FrameLayout;
 
-public class BaseView extends FrameLayout{
+public class BaseView extends FrameLayout implements View.OnLongClickListener {
 	Context mContext;
 	
 	String type = "";
@@ -30,6 +30,7 @@ public class BaseView extends FrameLayout{
 	public BaseView(Context context) {
 		super(context);
 		mContext = context;
+		//setOnLongClickListener(this);
 	}
 	
 //	@Override
@@ -58,6 +59,26 @@ public class BaseView extends FrameLayout{
 //		return true;
 //	}
 
+	@Override
+	public boolean onLongClick(View v) {
+		Log.v("DragDrop", "BaseView : onLongClick()");
+		CustomScrollView csv = (CustomScrollView) getParent().getParent();
+		csv.setItemView(this);
+		
+		return false;
+	}
+	
+//	@Override
+//	public boolean performClick() {
+//		Log.v("DragDrop", "BaseView : performClick");
+//		return super.performClick();
+//	}
+//
+//	@Override
+//	public boolean performLongClick() {
+//		Log.v("DragDrop", "BaseView : performLongClick");
+//		return super.performLongClick();
+//	}
 
 	public void setWidth(int type) {
 		switch(type) {
@@ -212,6 +233,8 @@ public class BaseView extends FrameLayout{
 	public void setEditMode(boolean isEditMode) {
 		this.isEditMode = isEditMode;
 	}
+
+
 
 
 }

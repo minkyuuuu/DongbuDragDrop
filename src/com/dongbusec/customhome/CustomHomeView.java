@@ -23,7 +23,7 @@ import com.dongbusec.customhome.bean.CustomHome.Item;
  * 기본적으로 커스텀홈에서 사용되는 클래스, 변수, 메소드등의 이름은 아이폰에서 사용한 이름을 사용함.
  *
  */
-public class CustomHomeView extends FrameLayout implements View.OnLongClickListener {
+public class CustomHomeView extends FrameLayout {
 	Context mContext;
 	
 	ArrayList<CustomHome> mArrayData;	// 모든 row의 배치 정보
@@ -121,7 +121,7 @@ public class CustomHomeView extends FrameLayout implements View.OnLongClickListe
     			// test
     			//if(!itemView.getType().equals("11")) itemView.setEditMode(true);
     			
-    			itemView.setOnLongClickListener(this);
+    			//itemView.setOnLongClickListener(this);
     			mArrayChildView.add(itemView);
     		}
     		
@@ -158,24 +158,24 @@ public class CustomHomeView extends FrameLayout implements View.OnLongClickListe
 		
 	}
     
-    @Override
-    public boolean onLongClick(View itemView) 
-    {
-    	Log.v("DragDrop", "onLongClick : " + itemView);
-    	Log.v("DragDrop", "onLongClick : " + itemView.toString());
-    	
-//    	sv = (ScrollView) getParent();
-//    	th = new TouchHandler(sv, mContext);
-    	
-    	draggingStart(itemView);
-        return true;
-    }
+//    @Override
+//    public boolean onLongClick(View itemView) 
+//    {
+//    	Log.v("DragDrop", "onLongClick : " + itemView);
+//    	Log.v("DragDrop", "onLongClick : " + itemView.toString());
+//    	
+////    	sv = (ScrollView) getParent();
+////    	th = new TouchHandler(sv, mContext);
+//    	
+//    	draggingStart(itemView);
+//        return true;
+//    }
 
 	private void draggingStart(View itemView) {
 		itemView.buildDrawingCache();
 		Bitmap bitmap = Bitmap.createBitmap(itemView.getDrawingCache());
 		ImageView above = new ImageView(mContext);
-		above.setImageBitmap(bitmap);   
+		above.setImageBitmap(bitmap);
 		
         //draggingView.setLayoutParams(itemView.getLayoutParams());
         LayoutParams params = (LayoutParams) itemView.getLayoutParams();
@@ -189,39 +189,13 @@ public class CustomHomeView extends FrameLayout implements View.OnLongClickListe
 		LayoutUtil.addChildRetina(draggingView, above, width, height, 0,0,0,0, Gravity.CENTER);
         LayoutUtil.addChildRetina(this, draggingView, width+30, height+30, x, y);
         draggingView.bringToFront();
+        //bitmap.recycle();
         
     	sv = (ScrollView) getParent();
     	th = new TouchHandler(sv, mContext);
         th.setDraggingView(this, itemView, draggingView);
         
 		itemView.setVisibility(INVISIBLE);
-	}
-
-	@Override
-	public boolean onTouchEvent(MotionEvent event) {
-		// TODO Auto-generated method stub
-		
-		
-		final int action = event.getAction();
-		final int x = (int) event.getX();
-		final int y = (int) event.getY();	
-		
-		switch (action) {
-			case MotionEvent.ACTION_DOWN:
-				Log.v("DragDrop", "ACTION_DOWNxxxxx");
-				break;
-			case MotionEvent.ACTION_MOVE:
-				Log.v("DragDrop", "ACTION_MOVExxx : (x, y) ---> " + x + "" + y);
-				break;
-			case MotionEvent.ACTION_CANCEL:
-				break;
-			case MotionEvent.ACTION_UP:
-				break;
-			default:
-				break;
-		}
-		//return true;
-		return super.onTouchEvent(event);
 	}
 
 	private Rect convertToRect(String rectString) {
