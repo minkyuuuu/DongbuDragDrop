@@ -1,4 +1,4 @@
-package com.dongbusec.customhome;
+package com.dongbusec.newmainlib.customhome;
 
 import java.util.ArrayList;
 import java.util.HashMap;
@@ -16,8 +16,8 @@ import android.widget.ScrollView;
 
 import com.dongbusec.corelib.util.LayoutUtil;
 import com.dongbusec.corelib.util.ResourceManager;
-import com.dongbusec.customhome.bean.CustomHome;
-import com.dongbusec.customhome.bean.CustomHome.Item;
+import com.dongbusec.newmainlib.customhome.bean.CustomHome;
+import com.dongbusec.newmainlib.customhome.bean.CustomHome.Item;
 
 /**
  * 기본적으로 커스텀홈에서 사용되는 클래스, 변수, 메소드등의 이름은 아이폰에서 사용한 이름을 사용함.

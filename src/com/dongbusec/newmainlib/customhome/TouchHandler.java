@@ -14,7 +14,7 @@
  * limitations under the License.
  */
 
-package com.dongbusec.customhome;
+package com.dongbusec.newmainlib.customhome;
 
 import android.content.Context;
 import android.util.Log;

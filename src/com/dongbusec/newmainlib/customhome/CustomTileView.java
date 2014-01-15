@@ -1,4 +1,4 @@
-package com.dongbusec.customhome;
+package com.dongbusec.newmainlib.customhome;
 
 import com.dongbusec.corelib.util.ResourceManager;
 
