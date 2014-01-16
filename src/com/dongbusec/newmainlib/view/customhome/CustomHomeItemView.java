@@ -1,4 +1,4 @@
-package com.dongbusec.newmainlib.customhome;
+package com.dongbusec.newmainlib.view.customhome;
 
 import android.content.Context;
 import android.graphics.Typeface;
@@ -7,7 +7,6 @@ import android.view.Gravity;
 import android.view.View;
 import android.widget.ImageView;
 import android.widget.TextView;
-import android.widget.FrameLayout.LayoutParams;
 
 import com.dongbusec.corelib.util.LayoutUtil;
 import com.dongbusec.corelib.util.ResourceManager;
@@ -47,8 +46,6 @@ public class CustomHomeItemView extends BaseView {
 		Drawable drawable = itemView.getBackground();
 		this.setBackgroundDrawable(drawable);
 
-//		itemView.buildDrawingCache();
-//		Bitmap bm = itemView.getDrawingCache();
 	}
 	
 	/**

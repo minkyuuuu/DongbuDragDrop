@@ -1,8 +1,8 @@
-package com.dongbusec.newmainlib.customhome;
+package com.dongbusec.newmainlib.view.customhome;
 
 import java.util.ArrayList;
 
-import com.dongbusec.newmainlib.customhome.bean.CustomHome;
+import com.dongbusec.newmainlib.view.customhome.bean.CustomHome;
 
 public class CommonUtil {
 

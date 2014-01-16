@@ -1,4 +1,4 @@
-package com.dongbusec.newmainlib.customhome;
+package com.dongbusec.newmainlib.view.customhome;
 
 import android.content.Context;
 import android.graphics.Bitmap;
@@ -17,12 +17,9 @@ import com.dongbusec.corelib.util.ResourceManager;
 /**
  * ScrollView extends FrameLayout 
  */
-public class CustomScrollView extends ScrollView {
+public class CustomScrollViewTest extends ScrollView {
 	Context mContext;
 	
-	int originX, originY;
-	
-	int startX, startY;
 	BaseView itemView = null;
 	FrameLayout draggingView = null;
 	FrameLayout.LayoutParams params;
@@ -35,7 +32,7 @@ public class CustomScrollView extends ScrollView {
 	int screenLimitTopY = 0;	// draggingView의 움직이는 화면범위.
 	int screenLimitBottomY = 0;	// draggingView의 움직이는 화면범위.
 	
-	public CustomScrollView(Context context) {
+	public CustomScrollViewTest(Context context) {
 		super(context);
 		init(context);
 	}
@@ -43,22 +40,26 @@ public class CustomScrollView extends ScrollView {
 	private void init(Context context) {
 		mContext = context;
 	}
-
-	@Override
-    protected void onScrollChanged(int x, int y, int oldx, int oldy) {
-        super.onScrollChanged(x, y, oldx, oldy);
-//        Log.v("DragDrop", "CustomScrollView : onScrollChanged() : y --> " + y);
-//        Log.v("DragDrop", "CustomScrollView : onScrollChanged() : oldy --> " + oldy);
-    }
 	
-	@Override
-	protected void onSizeChanged(int w, int h, int oldw, int oldh) {
-		Log.v("DragDrop", "CustomScrollView : onSizeChanged() : w --> " + w);
-//		Log.v("DragDrop", "CustomScrollView : onSizeChanged() : h --> " + h);
-//		Log.v("DragDrop", "CustomScrollView : onSizeChanged() : oldw --> " + oldw);
-//		Log.v("DragDrop", "CustomScrollView : onSizeChanged() : oldh --> " + oldh);
-		super.onSizeChanged(w, h, oldw, oldh);
-	}
+  @Override
+  public boolean onInterceptTouchEvent(MotionEvent event) {
+      final int action = event.getAction();
+		final int x = (int) event.getX();
+		final int y = (int) event.getY();	
+
+		switch (action) {
+		case MotionEvent.ACTION_DOWN:
+			Log.e("DragDrop", "onInterceptTouchEvent : ACTION_DOWN : y --> " + y);
+			break;
+		case MotionEvent.ACTION_MOVE:
+			break;
+		case MotionEvent.ACTION_CANCEL:
+			break;
+		case MotionEvent.ACTION_UP:
+			break;
+		}
+      return super.onInterceptTouchEvent(event);
+  }
 
 	@Override
 	public boolean onTouchEvent(MotionEvent event) {
@@ -84,15 +85,15 @@ public class CustomScrollView extends ScrollView {
 				break;
 			case MotionEvent.ACTION_CANCEL:
 				Log.v("DragDrop", "CustomScrollView : onTouchEvent : ACTION_CANCEL");
+				if(chv != null) {
+					resetAll();
+					return true;
+				}
 				break;
 			case MotionEvent.ACTION_UP:
 				Log.v("DragDrop", "CustomScrollView : onTouchEvent : ACTION_UP");
 				if(chv != null) {
-					chv.removeView(draggingView);
-					itemView.setVisibility(View.VISIBLE);
-					chv = null;
-					draggingView = null;
-					
+					resetAll();
 					return true;
 				}
 				break;
@@ -101,17 +102,24 @@ public class CustomScrollView extends ScrollView {
 		}
 		return super.onTouchEvent(event);
 	}
+
+	private void resetAll() {
+		chv.removeView(draggingView);
+		itemView.setVisibility(View.VISIBLE);
+		chv = null;
+		draggingView = null;
+	}
 	
 	public void setItemView(BaseView itemView) {
 		this.itemView = itemView;
-//		startX = itemView.getX();
-//		startY = itemView.getY();
 		
-		if(itemView != null) makeDraggingView();
-		if(itemView != null) startDrag();
+		if(itemView != null) {
+			buildDraggingView();
+			startDrag();
+		}
 	}
 
-	private void makeDraggingView() {
+	private void buildDraggingView() {
 //		Log.i("DragDrop", "itemView width : ---> " + itemView.getWidth());			// (first : 249
 //		Log.i("DragDrop", "itemView height : ---> " + itemView.getHeight());		// (first : 250
 //		
@@ -128,38 +136,55 @@ public class CustomScrollView extends ScrollView {
 		Bitmap bitmap = Bitmap.createBitmap(itemView.getDrawingCache());
 		ImageView above = new ImageView(mContext);
 		above.setImageBitmap(bitmap);
-		
-		int width = ((BaseView) itemView).getItemViewWidth();
-		int height = ((BaseView) itemView).getItemViewHeight();
-		startX = ((BaseView) itemView).getX();
-		startY = ((BaseView) itemView).getRealY();
-		Log.v("DragDrop", "startX : before : " + startX);	// (first : 12)
-		Log.v("DragDrop", "startY : before : " + startY);	// (first : 0)
-		
+		//itemView.cancelLongPress();
+
+		// draggingView의 위치설정은 design guide의 수치 기준으로 배치해야한다. 즉 객체에 저장된 수치기준으로 배치해야한다.
+		// 단 배치할 때 그림자 크기를 고려해야한다.
 		draggingView = new FrameLayout(mContext);
 		draggingView.setBackgroundDrawable(ResourceManager.getSingleImage("frame_edit_shadow"));
-		LayoutUtil.addChildRetina(draggingView, above, width, height, 0,0,0,0, Gravity.CENTER);
+		int designWidth = ((BaseView) itemView).getItemViewWidth();		// desing guide 수치, 즉 객체에 저장된 수치이다.
+		int designHeight = ((BaseView) itemView).getItemViewHeight();
+		LayoutUtil.addChildRetina(draggingView, above, designWidth, designHeight, 0, 0, 0, 0, Gravity.CENTER);
+		
 		chv = (CustomHomeView) itemView.getParent();
-		int x = startX - Constant.FRAME_SHADOW_SIZE/2;
-		int y = startY - Constant.FRAME_SHADOW_SIZE/2;
-        LayoutUtil.addChildRetina(chv, draggingView, width+Constant.FRAME_SHADOW_SIZE, height+Constant.FRAME_SHADOW_SIZE, x, y);
-        draggingView.bringToFront();
+		int designX = ((BaseView) itemView).getX();						// desing guide 수치, 즉 객체에 저장된 수치이다.
+		int designY = ((BaseView) itemView).getRealY();
+		int w = designWidth + Constant.FRAME_SHADOW_SIZE;
+		int h = designHeight + Constant.FRAME_SHADOW_SIZE;
+//		int left = designX;
+//		int top = designY;
+		int left = designX - Constant.FRAME_SHADOW_SIZE / 2;
+		int top = designY - Constant.FRAME_SHADOW_SIZE / 2;
+		
+		LayoutUtil.addChildRetina(chv, draggingView, w, h, left, top);
+		draggingView.bringToFront();
+		
+		Log.v("DragDrop", "itemView designX : before layout : " + designX);	// (first : 12), design 수치
+		Log.v("DragDrop", "itemView designY : before layout : " + designY);	// (first : 0),  design 수치
+		Log.v("DragDrop", "itemView getLeft() : " + itemView.getLeft());	// (first : 20), 상대적 위치
+		Log.v("DragDrop", "itemView getTop() : " + itemView.getTop());		// (first : 0),  상대적 위치
+		Log.v("DragDrop", "draggingView : left : " + left);					// (first : -3)
+		Log.v("DragDrop", "draggingView : top : " + top);					// (first : -15)
+		
+		Log.v("DragDrop", "itemView : getWidth() : " + itemView.getWidth());	// (first : 249
+		Log.v("DragDrop", "itemView : getHeight() : " + itemView.getHeight());	// (first : 250
+		Log.v("DragDrop", "draggingView : getWidth() : " + draggingView.getWidth());
+		Log.v("DragDrop", "draggingView : getHeight() : " + draggingView.getHeight());
+        
         params = (LayoutParams) draggingView.getLayoutParams();
-		Log.v("DragDrop", "startX : after : " + params.leftMargin);			// (first : -3)
-		Log.v("DragDrop", "startY : after : " + params.topMargin);			// (first : -23)
-		Log.v("DragDrop", "draggingView : x : " + draggingView.getLeft());	// (first : 0)
-		Log.v("DragDrop", "draggingView : y : " + draggingView.getTop());	// (first : 0)
+		Log.v("DragDrop", "draggingView leftMargin : after layout : " + params.leftMargin);	// (first : -3)
+		Log.v("DragDrop", "draggingView topMargin  : after layout : " + params.topMargin);	// (first : -23)
+		Log.v("DragDrop", "draggingView : getLeft() : " + draggingView.getLeft());			// (first : 0) 이유는 아직...
+		Log.v("DragDrop", "draggingView : getTop() : " + draggingView.getTop());			// (first : 0)
 	}
 
 	private void startDrag() {
 		if(draggingView != null) {
 			itemView.setVisibility(INVISIBLE);
 			
-//			params.leftMargin = originX;
-//			params.topMargin = getScrollY() + originY;
-//			draggingView.setLayoutParams(params);
-			
 			limitBottomY = computeVerticalScrollRange() - getHeight(); 
+			screenLimitTopY = getTop();
+			screenLimitBottomY = getBottom();
 		}
 	}
 	
@@ -169,16 +194,7 @@ public class CustomScrollView extends ScrollView {
 		draggingView.setLayoutParams(params);
 	}
 	
-	@Override
-	protected void onLayout(boolean changed, int l, int t, int r, int b) {
-		// computeVerticalScrollRange() = 0 ??? 
-		//limitBottomY = computeVerticalScrollRange() - getHeight(); // 2702 = 4204 - 1502, 크기가 변하면 다시 계산해주어야한다.
-		screenLimitTopY = getTop();
-		screenLimitBottomY = getBottom();
-		super.onLayout(changed, l, t, r, b);
-	}
-
-	int dy = 0;
+	//int dy = 0;
 	private void scroll() {
 		// 먼저 scroll의 보이는 위치가 스크롤의 처음과 마지막이면 return
 		if( !(getScrollY() >= 0 && getScrollY() <= limitBottomY) ) return;
@@ -186,23 +202,22 @@ public class CustomScrollView extends ScrollView {
 		if(draggingView != null) {
 			// draggingView의 위치가 보이는 스크롤영역을 벗어나면...
 			draggingView.getLocationOnScreen(draggingLoc);
-			Log.e("DragDrop", "draggingView : location[1] : y : ---> " + draggingLoc[1]);	
 			
 			if (draggingLoc[1] < screenLimitTopY) {
-				dy = screenLimitTopY - draggingLoc[1];
+				//dy = screenLimitTopY - draggingLoc[1];
 				post(new Runnable() {
 					@Override
 					public void run() {
-						scrollBy(0, -10);
+						scrollBy(0, -Constant.SCROLL_SPEED);
 					}
 				});
 			}
 			if ((draggingLoc[1] + draggingView.getHeight()) > screenLimitBottomY) {
-				dy = screenLimitBottomY - (draggingLoc[1] + draggingView.getHeight());
+				//dy = screenLimitBottomY - (draggingLoc[1] + draggingView.getHeight());
 				post(new Runnable() {
 					@Override
 					public void run() {
-						scrollBy(0, 10);
+						scrollBy(0, Constant.SCROLL_SPEED);
 					}
 				});
 			}
@@ -217,11 +232,54 @@ public class CustomScrollView extends ScrollView {
         {
         }
     };
-	
+    
+	/* (non-Javadoc)
+	 * 단순한 flicking에 의한 scroll시에는 실행되지 않구...
+	 * draggingView가 drag될 때, 즉 ScrollView의 자식뷰의 위치나 크기가 변할 때 발생된다.
+	 */
 	@Override
-	public void scrollTo(int x, int y) {
-		Log.v("DragDrop", "CustomScrollView : scrollTo() : x --> " + x);
-		Log.v("DragDrop", "CustomScrollView : scrollTo() : y --> " + y);
+	protected void onLayout(boolean changed, int l, int t, int r, int b) {
+		Log.w("DragDrop", "onLayout");
+//		//limitBottomY = computeVerticalScrollRange() - getHeight(); // 2702 = 4204 - 1502, 크기가 변하면 다시 계산해주어야한다.
+//		screenLimitTopY = getTop();
+//		screenLimitBottomY = getBottom();
+		if(draggingView != null) {
+			Log.i("DragDrop", "draggingView : getWidth() : " + draggingView.getWidth());	// 300
+			Log.i("DragDrop", "draggingView : getHeight() : " + draggingView.getHeight());	// 300
+			Log.v("DragDrop", "draggingView : getLeft() : " + draggingView.getLeft());		// -3
+			Log.v("DragDrop", "draggingView : getTop() : " + draggingView.getTop());		// -23
+		}
+		
+		super.onLayout(changed, l, t, r, b);
+	}
+
+	/* (non-Javadoc)
+	 * 스크롤이 끝나는 시점을 알수 있는 이벤트 콜백 함수 
+	 */
+//	@Override
+//    protected void onScrollChanged(int x, int y, int oldx, int oldy) {
+//        super.onScrollChanged(x, y, oldx, oldy);
+////        Log.w("DragDrop", "CustomScrollView : onScrollChanged() : y --> " + y);
+////        Log.v("DragDrop", "CustomScrollView : onScrollChanged() : oldy --> " + oldy);
+//    }
+	
+//	@Override
+//	protected void onSizeChanged(int w, int h, int oldw, int oldh) {
+//		Log.w("DragDrop", "CustomScrollView : onSizeChanged() : w --> " + w);
+////		Log.v("DragDrop", "CustomScrollView : onSizeChanged() : h --> " + h);
+////		Log.v("DragDrop", "CustomScrollView : onSizeChanged() : oldw --> " + oldw);
+////		Log.v("DragDrop", "CustomScrollView : onSizeChanged() : oldh --> " + oldh);
+//		super.onSizeChanged(w, h, oldw, oldh);
+//	}
+	
+	/* (non-Javadoc)
+	 * 단순한 flicking에 의한 scroll시에는 실행되지 않구...
+	 * draggingView가 drag될 때 scrollBy()에 의한 scroll시에의해 실행된다.
+	 */
+//	@Override
+//	public void scrollTo(int x, int y) {
+//		Log.v("DragDrop", "CustomScrollView : scrollTo() : x --> " + x);
+//		Log.e("DragDrop", "CustomScrollView : scrollTo() : y --> " + y);
 		
 //		if(draggingView != null) {
 //			
@@ -236,7 +294,6 @@ public class CustomScrollView extends ScrollView {
 //			
 //			Log.v("DragDrop", "CustomScrollView : computeVerticalScrollRange() : ---> " + computeVerticalScrollRange());
 //		}
-		
 //		
 //		// test
 //		Log.v("DragDrop", "CustomScrollView : getMaxScrollAmount() : ---> " + getMaxScrollAmount());					// 751, no meaning
@@ -306,9 +363,9 @@ public class CustomScrollView extends ScrollView {
 //			Log.v("DragDrop", "draggingView : location[1] : y : ---> " + location[1]);									// (first : 203
 //			
 //		}
-		
-		super.scrollTo(x, y);
-	}
+//		
+//		super.scrollTo(x, y);
+//	}
 	
 	
 

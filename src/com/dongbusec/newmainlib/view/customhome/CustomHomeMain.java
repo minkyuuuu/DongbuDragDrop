@@ -1,5 +1,5 @@
 
-package com.dongbusec.newmainlib.customhome;
+package com.dongbusec.newmainlib.view.customhome;
 
 import android.app.Activity;
 import android.content.Context;
@@ -10,12 +10,8 @@ import android.util.Log;
 import android.view.Gravity;
 import android.view.View;
 import android.widget.Button;
-import android.widget.FrameLayout;
 import android.widget.LinearLayout;
-import android.widget.RelativeLayout;
-import android.widget.ScrollView;
 import android.widget.TextView;
-import android.widget.FrameLayout.LayoutParams;
 
 import com.dongbusec.corelib.util.LayoutUtil;
 import com.dongbusec.corelib.util.ResourceManager;

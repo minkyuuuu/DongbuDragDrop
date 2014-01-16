@@ -1,4 +1,4 @@
-package com.dongbusec.newmainlib.customhome;
+package com.dongbusec.newmainlib.view.customhome;
 
 import android.content.Context;
 import android.view.GestureDetector;
@@ -14,22 +14,11 @@ public class MyScrollView extends ScrollView {
 
 	public MyScrollView(Context context) {
 		super(context);
-		// TODO Auto-generated constructor stub
 		
 		this.setOnTouchListener(gestureListener2);
 		
-
-		//onScrollChanged(l, t, oldl, oldt)
 		GestureDetector gdv = new GestureDetector(vert);
-		
-		
-		
 	}
-	
-//	@Override
-//	public void onScrollChanged() {
-//
-//	}
 	
 	OnTouchListener gestureListener2 = new View.OnTouchListener()
 	{
@@ -38,8 +27,6 @@ public class MyScrollView extends ScrollView {
 	        return gdv.onTouchEvent(event);
 	    }
 	};
-	
-
 	
 	SimpleOnGestureListener vert = new SimpleOnGestureListener()
 	{

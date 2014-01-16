@@ -1,4 +1,4 @@
-package com.dongbusec.newmainlib.customhome;
+package com.dongbusec.newmainlib.view.customhome;
 
 import android.os.Bundle;
 

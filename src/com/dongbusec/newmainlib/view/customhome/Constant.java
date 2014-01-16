@@ -1,4 +1,4 @@
-package com.dongbusec.newmainlib.customhome;
+package com.dongbusec.newmainlib.view.customhome;
 
 public interface Constant {
 	
@@ -17,6 +17,7 @@ public interface Constant {
 		int cellType_Double = 2;
 	}
 	
+	int SCROLL_SPEED = 10;
 	int FRAME_SHADOW_SIZE = 30;
 	
 	Integer SIZE_ONE 	= 148;

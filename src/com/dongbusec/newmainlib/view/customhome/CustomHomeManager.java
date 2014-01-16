@@ -1,4 +1,4 @@
-package com.dongbusec.newmainlib.customhome;
+package com.dongbusec.newmainlib.view.customhome;
 
 import java.io.IOException;
 import java.io.InputStream;
@@ -9,8 +9,8 @@ import java.util.HashMap;
 import android.content.Context;
 import android.util.Log;
 
-import com.dongbusec.newmainlib.customhome.bean.CustomHome;
-import com.dongbusec.newmainlib.customhome.bean.PatternInfo;
+import com.dongbusec.newmainlib.view.customhome.bean.CustomHome;
+import com.dongbusec.newmainlib.view.customhome.bean.PatternInfo;
 import com.google.gson.Gson;
 import com.google.gson.JsonElement;
 import com.google.gson.JsonObject;
@@ -231,12 +231,5 @@ public class CustomHomeManager {
 		
 		return pattern;
 	}
-	
-	
-	
-	
-	
-	
-	
 	
 }

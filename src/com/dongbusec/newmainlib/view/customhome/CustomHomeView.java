@@ -1,4 +1,4 @@
-package com.dongbusec.newmainlib.customhome;
+package com.dongbusec.newmainlib.view.customhome;
 
 import java.util.ArrayList;
 import java.util.HashMap;
@@ -6,9 +6,7 @@ import java.util.HashMap;
 import android.content.Context;
 import android.graphics.Bitmap;
 import android.graphics.Rect;
-import android.util.Log;
 import android.view.Gravity;
-import android.view.MotionEvent;
 import android.view.View;
 import android.widget.FrameLayout;
 import android.widget.ImageView;
@@ -16,8 +14,8 @@ import android.widget.ScrollView;
 
 import com.dongbusec.corelib.util.LayoutUtil;
 import com.dongbusec.corelib.util.ResourceManager;
-import com.dongbusec.newmainlib.customhome.bean.CustomHome;
-import com.dongbusec.newmainlib.customhome.bean.CustomHome.Item;
+import com.dongbusec.newmainlib.view.customhome.bean.CustomHome;
+import com.dongbusec.newmainlib.view.customhome.bean.CustomHome.Item;
 
 /**
  * 기본적으로 커스텀홈에서 사용되는 클래스, 변수, 메소드등의 이름은 아이폰에서 사용한 이름을 사용함.
@@ -52,10 +50,6 @@ public class CustomHomeView extends FrameLayout {
     	//mArrayChildView = new ArrayList<HashMap<String, Object>>();
     	
     	mCustomManager = CustomHomeManager.getInstance(context); 
-    	
-//    	sv = (ScrollView) getParent();
-//    	th = new TouchHandler(sv, mContext);
-    	
     }
 
 	/**
@@ -80,7 +74,7 @@ public class CustomHomeView extends FrameLayout {
     			totalHeight += cellHeight.get(i-1);
     		}
     		
-    		//childArray.clear();			//	하나의 row에 해당하는 CustomHomeItemView를 담는 배열 
+    		//childArray.clear();		//	하나의 row에 해당하는 CustomHomeItemView를 담는 배열 
     		//childDictionary.clear();	//  전체 row에 해당하는 CustomHomeItemView를 담는 배
     		
     		String rectString = "";
@@ -118,19 +112,8 @@ public class CustomHomeView extends FrameLayout {
     			itemView.setRealY(totalHeight + y);
     			LayoutUtil.addChildRetina(this, itemView, width, height, x, totalHeight + y);
     			
-    			// test
-    			//if(!itemView.getType().equals("11")) itemView.setEditMode(true);
-    			
-    			//itemView.setOnLongClickListener(this);
     			mArrayChildView.add(itemView);
     		}
-    		
-//    		childDictionary.put(Constant.KEY_ITEMS, childArray);
-//    		childDictionary.put(Constant.KEY_RECT, rectString);		// ???
-//    		childDictionary.put(Constant.KEY_CELLTYPE, cellType);
-//    		
-//    		mArrayChildView.add(childDictionary);	// childDictionary : 중복되는게 아닌지... CustomHomeItemView안에 rect와 celltype이 있는데... 굳이 가져야하나...
-    		
     		
     	}
 	}
@@ -144,60 +127,8 @@ public class CustomHomeView extends FrameLayout {
 			CustomHomeItemView itemView = mArrayChildView.get(i);
 			itemView.loadData(context);
     	}
-    	
-//    	for(int i=0; i<mArrayChildView.size(); i++) {
-//    		HashMap<String, Object> childDictionary = mArrayChildView.get(i);
-//    		ArrayList<CustomHomeItemView> childArray = (ArrayList<CustomHomeItemView>) childDictionary.get(Constant.KEY_ITEMS);
-//    		for(int j = 0; j < childArray.size(); j++) {
-//    			CustomHomeItemView itemView = childArray.get(j);
-//    			itemView.loadData(context);
-//    		}
-//    	}
-    	
-    	//new TouchHandler(this, context);
-		
 	}
     
-//    @Override
-//    public boolean onLongClick(View itemView) 
-//    {
-//    	Log.v("DragDrop", "onLongClick : " + itemView);
-//    	Log.v("DragDrop", "onLongClick : " + itemView.toString());
-//    	
-////    	sv = (ScrollView) getParent();
-////    	th = new TouchHandler(sv, mContext);
-//    	
-//    	draggingStart(itemView);
-//        return true;
-//    }
-
-	private void draggingStart(View itemView) {
-		itemView.buildDrawingCache();
-		Bitmap bitmap = Bitmap.createBitmap(itemView.getDrawingCache());
-		ImageView above = new ImageView(mContext);
-		above.setImageBitmap(bitmap);
-		
-        //draggingView.setLayoutParams(itemView.getLayoutParams());
-        LayoutParams params = (LayoutParams) itemView.getLayoutParams();
-		int width = ((BaseView) itemView).getItemViewWidth();
-		int height = ((BaseView) itemView).getItemViewHeight();
-		int x = ((BaseView) itemView).getX();
-		int y = ((BaseView) itemView).getRealY();
-		
-		FrameLayout draggingView = new FrameLayout(mContext);
-		draggingView.setBackgroundDrawable(ResourceManager.getSingleImage("frame_edit_shadow"));
-		LayoutUtil.addChildRetina(draggingView, above, width, height, 0,0,0,0, Gravity.CENTER);
-        LayoutUtil.addChildRetina(this, draggingView, width+30, height+30, x, y);
-        draggingView.bringToFront();
-        //bitmap.recycle();
-        
-    	sv = (ScrollView) getParent();
-    	th = new TouchHandler(sv, mContext);
-        th.setDraggingView(this, itemView, draggingView);
-        
-		itemView.setVisibility(INVISIBLE);
-	}
-
 	private Rect convertToRect(String rectString) {
 		String str = rectString.replaceAll("\\{", "");
 		str = str.replaceAll("\\}", "");

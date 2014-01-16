@@ -14,7 +14,7 @@
  * limitations under the License.
  */
 
-package com.dongbusec.newmainlib.customhome;
+package com.dongbusec.newmainlib.view.customhome;
 
 import android.content.Context;
 import android.util.Log;
@@ -22,7 +22,6 @@ import android.view.MotionEvent;
 import android.view.View;
 import android.widget.FrameLayout;
 import android.widget.FrameLayout.LayoutParams;
-import android.widget.ImageView;
 import android.widget.ScrollView;
 
 public final class TouchHandler implements View.OnTouchListener {

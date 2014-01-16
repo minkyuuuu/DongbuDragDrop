@@ -1,4 +1,4 @@
-package com.dongbusec.newmainlib.customhome;
+package com.dongbusec.newmainlib.view.customhome;
 
 import android.content.Context;
 import android.graphics.Typeface;
@@ -9,10 +9,10 @@ import android.widget.TextView;
 import com.dongbusec.corelib.util.LayoutUtil;
 import com.dongbusec.corelib.util.ResourceManager;
 
-public class CustomTileView__ extends FrameLayout {
+public class CustomTileViewTest extends FrameLayout {
 
 
-	public CustomTileView__(Context context, FrameLayout customHomeView, int viewType, int moduleType, String itemCode) {
+	public CustomTileViewTest(Context context, FrameLayout customHomeView, int viewType, int moduleType, String itemCode) {
 		super(context);
         init(context, customHomeView, viewType, moduleType);
         initView(context, moduleType, itemCode);

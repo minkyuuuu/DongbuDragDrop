@@ -1,4 +1,4 @@
-package com.dongbusec.newmainlib.customhome;
+package com.dongbusec.newmainlib.view.customhome;
 
 import android.content.Context;
 import android.graphics.Rect;
@@ -30,35 +30,8 @@ public class BaseView extends FrameLayout implements View.OnLongClickListener {
 	public BaseView(Context context) {
 		super(context);
 		mContext = context;
-		//setOnLongClickListener(this);
 	}
 	
-//	@Override
-//	public boolean onTouchEvent(MotionEvent event) {
-//		// TODO Auto-generated method stub
-//		//return super.onTouchEvent(event);
-//		
-//		final int action = event.getAction();
-//		final int x = (int) event.getX();
-//		final int y = (int) event.getY();	
-//		
-//		switch (action) {
-//			case MotionEvent.ACTION_DOWN:
-//				Log.v("DragDrop", "ACTION_DOWN");
-//				break;
-//			case MotionEvent.ACTION_MOVE:
-//				Log.v("DragDrop", "ACTION_MOVE : (x, y) ---> " + x + "" + y);
-//				break;
-//			case MotionEvent.ACTION_CANCEL:
-//				break;
-//			case MotionEvent.ACTION_UP:
-//				break;
-//			default:
-//				break;
-//		}
-//		return true;
-//	}
-
 	@Override
 	public boolean onLongClick(View v) {
 		Log.v("DragDrop", "BaseView : onLongClick()");
@@ -68,18 +41,6 @@ public class BaseView extends FrameLayout implements View.OnLongClickListener {
 		return false;
 	}
 	
-//	@Override
-//	public boolean performClick() {
-//		Log.v("DragDrop", "BaseView : performClick");
-//		return super.performClick();
-//	}
-//
-//	@Override
-//	public boolean performLongClick() {
-//		Log.v("DragDrop", "BaseView : performLongClick");
-//		return super.performLongClick();
-//	}
-
 	public void setWidth(int type) {
 		switch(type) {
         case Constant.Type.TYPE_1x1:
@@ -233,8 +194,6 @@ public class BaseView extends FrameLayout implements View.OnLongClickListener {
 	public void setEditMode(boolean isEditMode) {
 		this.isEditMode = isEditMode;
 	}
-
-
 
 
 }

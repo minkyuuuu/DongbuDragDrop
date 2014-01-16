@@ -1,4 +1,4 @@
-package com.dongbusec.newmainlib.customhome.bean;
+package com.dongbusec.newmainlib.view.customhome.bean;
 
 import java.util.ArrayList;
 

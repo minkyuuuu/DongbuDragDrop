@@ -1,9 +1,9 @@
-package com.dongbusec.newmainlib.customhome;
-
-import com.dongbusec.corelib.util.ResourceManager;
+package com.dongbusec.newmainlib.view.customhome;
 
 import android.content.Context;
 import android.view.View;
+
+import com.dongbusec.corelib.util.ResourceManager;
 
 public class CustomTileView extends View {
 
